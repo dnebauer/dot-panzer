@@ -19,23 +19,29 @@ def print_log(filepath):
     target = panzertools.FileInfo(filepath)
     mangled_target = target.mangle()
     mangled_target.set_extension('.log')
-    command = [ '/usr/local/bin/pplatex', '--input', mangled_target.fullpath() ]
+    command = ['/usr/bin/pplatex', '--input', mangled_target.fullpath()]
     panzertools.log('DEBUG', 'running %s' % command)
     stdout_list = list()
     try:
-        p = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        stdout_bytes, stderr_bytes = p.communicate()
+        proc = subprocess.Popen(command,
+                                stdout=subprocess.PIPE,
+                                stderr=subprocess.PIPE)
+        stdout_bytes, stderr_bytes = proc.communicate()
         if stdout_bytes:
-            stdout = stdout_bytes.decode(panzertools.ENCODING, errors='ignore')
+            stdout = stdout_bytes.decode(panzertools.ENCODING,
+                                         errors='ignore')
             for line in stdout.splitlines():
                 level = parse_level(line)
                 panzertools.log(level, line)
         if stderr_bytes:
-            stderr = stderr_bytes.decode(panzertools.ENCODING, errors='ignore')
+            stderr = stderr_bytes.decode(panzertools.ENCODING,
+                                         errors='ignore')
             for line in stderr.splitlines():
                 panzertools.log('ERROR', line)
             panzertools.log('ERROR', 'failed to parse latex log file')
-            panzertools.log('INFO', 'consult the log file "%s" for more information' % mangled_target.fullpath())
+            panzertools.log('INFO',
+                            'consult the log file "%s" for more information'
+                            % mangled_target.fullpath())
     except subprocess.CalledProcessError:
         panzertools.log('ERROR', 'pplatex failed')
     for line in stdout_list:
@@ -60,7 +66,6 @@ def main():
         print_log(filepath)
     else:
         panzertools.log('INFO', 'not run')
-
 
 
 # Standard boilerplate to call the main() function to begin

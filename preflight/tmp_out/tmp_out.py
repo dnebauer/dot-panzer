@@ -31,16 +31,18 @@ def move_temp_files_out(filepath):
     panzertools.log('INFO', 'moving files out of %s' % temp_path)
     for temp_file in temp_files:
         shutil.copy(temp_file, target.parents())
-        panzertools.log('DEBUG', 'copying %s to %s' % (temp_file, target.parents()))
+        panzertools.log('DEBUG',
+                        'copying %s to %s' % (temp_file, target.parents()))
 
 
 def main():
     """docstring for main"""
-    OPTIONS = panzertools.read_options()
-    if OPTIONS['pandoc']['output'] != '-':
-        move_temp_files_out(OPTIONS['pandoc']['output'])
+    options = panzertools.read_options()
+    if options['pandoc']['output'] != '-':
+        move_temp_files_out(options['pandoc']['output'])
     else:
         panzertools.log('INFO', 'not run')
+
 
 if __name__ == '__main__':
     main()

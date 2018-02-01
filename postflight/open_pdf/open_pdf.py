@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-open pdf file produced by latexmk in Skim.app
+open pdf file produced by latexmk
 """
 
 import os
@@ -11,39 +11,16 @@ import panzertools
 
 
 def open_pdf(filepath):
-    """Use AppleScript to open View.app"""
+    """Use xdg-open to open pdf file"""
     fullpath = os.path.abspath(filepath)
-    command = """
-    set theFile to POSIX file "%s" as alias
-    set thePath to POSIX path of theFile
-    tell application "Skim"
-      activate
-      set theDocs to get documents whose path is thePath
-      try
-        if (count of theDocs) > 0 then revert theDocs
-      end try
-      open theFile
-    end tell
-    """ % fullpath
-    asrun(command)
-
-
-def asrun(ascript):
-    "Run the given AppleScript and return the standard output and error."
-    osa = subprocess.Popen(['osascript', '-'], stdin=subprocess.PIPE, stdout=subprocess.PIPE)
-    stdin_bytes = ascript.encode(panzertools.ENCODING)
-    stdout_bytes = osa.communicate(stdin_bytes)[0]
-    stdout = str()
-    if stdout_bytes:
-        stdout = stdout_bytes.decode(panzertools.ENCODING)
-    return stdout
-
+    subprocess.check_output(["xdg-open", fullpath],
+                            stderr=subprocess.STDOUT)
 
 
 def main():
     """docstring for main"""
-    OPTIONS = panzertools.read_options()
-    filepath = OPTIONS['pandoc']['output']
+    options = panzertools.read_options()
+    filepath = options['pandoc']['output']
     if filepath == '-':
         panzertools.log('INFO', 'not run')
         return

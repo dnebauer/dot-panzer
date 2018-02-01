@@ -36,6 +36,7 @@ from util import there
 
 ENCODING = 'utf-8'
 
+
 def main():
     """docstring for main"""
     # read input ast
@@ -56,14 +57,17 @@ def main():
     ident = stringify(meta['metapub'])
     log('DEBUG', 'looking for: ' + ident)
     entries = [e for e in pubs
-               if ('uuid' in e and e['uuid'] == ident) \
+               if ('uuid' in e and e['uuid'] == ident)
                or ('slug' in e and e['slug'] == ident)]
     if not entries:
-        log('ERROR', 'Publication with id "%s" not found in "%s"' % (ident, metapub_file))
+        log('ERROR', 'Publication with id "%s" not found in "%s"'
+            % (ident, metapub_file))
         write_ast(ast)
         return
     if len(entries) > 1:
-        log('WARNING', 'More than 1 publication with id "%s" found in "%s"' % (ident, metapub_file))
+        log('WARNING',
+            'More than 1 publication with id "%s" found in "%s"'
+            % (ident, metapub_file))
     entry = entries[0]
     # build new metadata from entry
     new = dict()
@@ -84,9 +88,11 @@ def main():
     ast['meta'] = meta
     write_ast(ast)
 
+
 def add_title(new, entry):
     if there('title', entry):
         new['title'] = entry['title']
+
 
 def add_author(new, entry):
     if there('author', entry):
@@ -94,60 +100,76 @@ def add_author(new, entry):
     for a in new['author']:
         a['name'] = a.get('name_first', '') + ' ' + a.get('name_last', '')
 
+
 def add_date_updated(new, entry):
     if there('date_updated', entry):
         new['date'] = uk_date(entry['date_updated'])
 
+
 def add_disclaimer(new, entry):
     if there('disclaimer', entry):
         new['disclaimer'] = entry['disclaimer']
-    elif there('status', entry) and entry['status'] in ['proposed', 'in preparation']:
+    elif there('status', entry) and entry['status'] \
+            in ['proposed', 'in preparation']:
         new['disclaimer'] = '*Draft only. Do not cite without permission.*'
+
 
 def add_publication(new, entry):
     def add_published(new, entry):
         import formatter
         f = getattr(formatter, entry['published']['type'], formatter.default)
         new['published'] = f(entry)
+
     def add_doi(new, entry):
         if there('doi', entry['published']):
             new['doi'] = entry['published']['doi']
+
     if there('published', entry):
         add_disclaimer(new, entry)
         add_published(new, entry)
         add_doi(new, entry)
 
+
 def add_abstract(new, entry):
     if there('abstract', entry):
         new['abstract'] = entry['abstract']
+
 
 def add_note(new, entry):
     if there('note', entry):
         new['note'] = entry['note']
 
+
 def add_keywords(new, entry):
     if there('keywords', entry):
         new['keywords'] = entry['keywords']
 
+
 def read_ast():
     log('DEBUG', 'reading ast')
     return json.load(sys.stdin)
+
 
 def write_ast(ast):
     log('DEBUG', 'writing ast')
     sys.stdout.write(json.dumps(ast))
     sys.stdout.flush()
 
+
 def read_yaml(filename):
     with open(filename, 'r', encoding=ENCODING) as f:
         return yaml.load(f)
+
 
 def generate_meta(incoming_dict):
     import pandoc
     yaml_str = yaml.dump(incoming_dict)
     yaml_str_appended = '---\n' + yaml_str + '...\n\n'
-    json_str = pandoc.text2json(yaml_str_appended, 'markdown', ['--standalone'])
+    json_str = pandoc.text2json(yaml_str_appended,
+                                'markdown',
+                                ['--standalone'])
     return json_str['meta']
+
 
 def log(level, msg):
     import os
@@ -158,6 +180,7 @@ def log(level, msg):
         panzertools.log(level, msg)
     else:
         print(level + ': ' + msg, file=sys.stderr)
+
 
 def uk_date(iso_date):
     """
@@ -172,4 +195,3 @@ def uk_date(iso_date):
 # the program.
 if __name__ == '__main__':
     main()
-

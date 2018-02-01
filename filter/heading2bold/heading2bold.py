@@ -15,17 +15,21 @@ is transformed to -->
 
 """
 
-from pandocfilters import *
+from pandocfilters import RawInline, Strong, Para, Emph, toJSONFilter
 
-def latex(s):
-    return RawInline('latex', s)
+
+def latex(content):
+    """docstring for latex"""
+    return RawInline('latex', content)
+
 
 def rehead(key, value, format, meta):
+    """docstring for rehead"""
     if key == 'Header' and value[0] == 1:
         return Para([latex('\\vspace{1em}')] + [Strong(value[2])])
     if key == 'Header' and value[0] == 2:
         return Para([Emph(value[2])])
 
+
 if __name__ == "__main__":
     toJSONFilter(rehead)
-

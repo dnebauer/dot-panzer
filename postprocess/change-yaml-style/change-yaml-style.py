@@ -3,19 +3,18 @@
 
 import sys
 
-input_lines  = sys.stdin.readlines()
-output_lines = []
-closed = False
+INPUT_LINES = sys.stdin.readlines()
+OUTPUT_LINES = []
+CLOSED = False
 
-for l in input_lines:
-    if not closed and l == '...\n':
-        output_lines.append('---\n')
-        closed = True
+for line in INPUT_LINES:
+    if not CLOSED and line == '...\n':
+        OUTPUT_LINES.append('---\n')
+        CLOSED = True
     else:
-        output_lines.append(l)
+        OUTPUT_LINES.append(line)
 
-for line in output_lines:
+for line in OUTPUT_LINES:
     sys.stdout.write(line)
 
 sys.stdout.flush()
-

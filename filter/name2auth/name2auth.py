@@ -14,7 +14,8 @@ Transforms metadata:
         - Joe Bloggs
         - Jim Brown
 
-The latter format is that assumed by pandoc's default templates. The former, I use in my own templates.
+The latter format is that assumed by pandoc's default templates. The former, I
+use in my own templates.
 """
 
 import json
@@ -27,7 +28,9 @@ import panzertools
 def main():
     """docstring for main"""
     ast = json.load(sys.stdin)
-    panzertools.log('INFO', 'transforming "author" field from list of "name" fields to list of inlines')
+    panzertools.log('INFO',
+                    'transforming "author" field from list of "name"'
+                    + ' fields to list of inlines')
     try:
         if ast['meta']['author']['t'] == 'MetaList':
             authors = list()
@@ -37,12 +40,13 @@ def main():
             ast['meta']['author']['c'] = authors
             panzertools.log('INFO', 'done')
     except (KeyError, IndexError):
-        panzertools.log('WARNING', '"name" field inside "author" field not found')
+        panzertools.log('WARNING',
+                        '"name" field inside "author" field not found')
     sys.stdout.write(json.dumps(ast))
     sys.stdout.flush()
+
 
 # Standard boilerplate to call the main() function to begin
 # the program.
 if __name__ == '__main__':
     main()
-

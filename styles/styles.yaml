@@ -6,10 +6,10 @@ Base:
   all:
     metadata:
       numbersections: true
-      lang: "en-GB"
+      lang: "en-AU"
       papersize: a4
     commandline:
-        standalone: true
+      standalone: true
     filter:
       - run: smallcaps.py
   latex:
@@ -38,7 +38,7 @@ Base:
         - babel
   revealjs:
     filter:
-       - run: name2auth.py
+      - run: name2auth.py
     commandline:
       mathjax: true
   html:
@@ -55,7 +55,108 @@ Plain:
   all:
     template:
     filter:
-       - run: name2auth.py
+      - run: name2auth.py
+
+###################################################
+# Standard output process                         #
+#                                                 #
+# docx:                                           #
+#   reference-docx: "/path/to/docx/template/file" #
+# odt:                                            #
+#   reference-odt: "/path/to/odt/template/file"   #
+###################################################
+
+Standard:
+  all:
+    metadata:
+      numbersections: false
+      lang: "en-AU"
+      papersize: A4
+      metadata-file:
+        - m_all_numbered-refs.md
+    from: markdown+footnotes+inline_notes+smart
+    commandline:
+      standalone: true
+    filter:
+      - run: metadata_files.py
+      - run: pandoc-fignos
+      - run: pandoc-eqnos
+      - run: pandoc-tablenos
+      - run: smallcaps.py
+  beamer:
+    preflight:
+      - run: tmp_out.py
+    postflight:
+      - run: latexmk.py
+      - run: open_pdf.py
+    cleanup:
+      - run: tmp_back.py
+      - run: rmlatex.py
+    metadata:
+      microtypeoptions:
+        - babel
+  context:
+    preflight:
+      - run: tmp_out.py
+    postflight:
+      - run: latexmk.py
+      - run: open_pdf.py
+    cleanup:
+      - run: tmp_back.py
+      - run: rmlatex.py
+    metadata:
+      microtypeoptions:
+        - babel
+      header-includes:
+        - \usepackage{xcolor}
+        - \usepackage{fontspec}
+        - \setmainfont{Junicode}
+        - \newfontfamily\myregularfont{Junicode}
+        - \newfontfamily\mychinesefont{IPAexMincho}
+        - \usepackage[CJK]{ucharclasses}
+        - \setTransitionsForCJK{\mychinesefont}{\myregularfont}
+    variable:
+      - linkcolor: gray
+      - papersize: A4
+  epub:
+    commandline:
+      self-contained: true
+      mathjax: true
+    filter:
+      - run: inject_epub_cover.py
+    postflight:
+      - run: createmobi.py
+  html:
+    commandline:
+      self-contained: true
+      mathjax: true
+    metadata:
+      css: "/home/david/.panzer/template/css/buttondown.css"
+  latex:
+    commandline:
+      pdf-engine: "`xelatex`"
+    preflight:
+      - run: tmp_out.py
+    # postflight:
+    # - run: latexmk.py
+    # - run: open_pdf.py
+    cleanup:
+      - run: tmp_back.py
+      # - run: rmlatex.py :: not needed for single-step pdf;
+      #                      deletes output in latex/context run!
+    metadata:
+      microtypeoptions:
+        - babel
+      metadata-file:
+        - m_latex_font-set.md
+        - m_latex_font-color.md
+        - m_latex_link-color.md
+        - m_latex_paper-a4.md
+  revealjs:
+    filter:
+      - run: name2auth.py
+    commandline:
+      mathjax: true
 
 #####################################
 #  Styles that add extra behaviour  #
@@ -75,7 +176,7 @@ SaveTrees:
 AddBib:
   all:
     metadata:
-      bibliography: "/Users/msprevak/Library/texmf/bibtex/bib/mds-bib/refs.bib"
+      bibliography: "/home/david/.local/share/texmf/bibtex/refs.bib"
   latex:
     commandline:
       biblatex: true
@@ -100,6 +201,89 @@ AddBib:
     filter:
       - run: pandoc-citeproc
 
+# Start each section on a new page (html, latex)
+PaginateSections:
+  all:
+    filter:
+      - run: paginatesects.py
+
+# Run latex in nonstop/non-interactive mode
+LatexNonStop:
+  latex:
+    metadata:
+      metadata-file:
+        - m_latex_nonstop.md
+
+# Available latex font sizes
+# - standard article document class supports font sizes: 10pt, 11pt, 12pt
+#   (see [https://stackoverflow.com/a/34845685]())
+#         latex:
+#           metadata:
+#             fontsize: 12pt
+# - for other size use package extsizes which provides document class
+#   extarticle which supports font sizes:
+#   8pt, 9pt, 10pt, 11pt, 12pt, 14pt, 17pt, 20pt
+#   (see [https://stackoverflow.com/a/46055046]())
+#         latex:
+#           metadata:
+#             documentclass: extarticle
+#             fontsize: 14pt
+#
+# Mechanism of setting font size
+# - panzer style Standard calls filter metadata_files.py
+# - this filter processes all metadata-file fields
+#   to find extra metadata files
+# - the filter looks for these metadata files in $HOME/.panzer/custom
+# - the metadata files contain font setting metadata commands
+# - metadata files are available for font point sizes: 8-12, 14, 17, 20
+Latex8pt:
+  latex:
+    metadata:
+      metadata-file:
+        - m_latex_font-size-8pt.md
+
+Latex9pt:
+  latex:
+    metadata:
+      metadata-file:
+        - m_latex_font-size-9pt.md
+
+Latex10pt:
+  latex:
+    metadata:
+      metadata-file:
+        - m_latex_font-size-10pt.md
+
+Latex11pt:
+  latex:
+    metadata:
+      metadata-file:
+        - m_latex_font-size-11pt.md
+
+Latex12pt:
+  latex:
+    metadata:
+      metadata-file:
+        - m_latex_font-size-12pt.md
+
+Latex14pt:
+  latex:
+    metadata:
+      metadata-file:
+        - m_latex_font-size-14pt.md
+
+Latex17pt:
+  latex:
+    metadata:
+      metadata-file:
+        - m_latex_font-size-17pt.md
+
+Latex20pt:
+  latex:
+    metadata:
+      metadata-file:
+        - m_latex_font-size-20pt.md
+
 ##########################################
 #               Article                  #
 ##########################################
@@ -119,7 +303,7 @@ Draft:
       note: false
       disclaimer: false
       doi: false
-      metapub_file: "/Users/msprevak/Documents/CV/publications.yaml"
+      metapub_file: "/home/david/Documents/CV/publications.yaml"
       filter:
         - run: metapub.py
   latex:
@@ -132,7 +316,8 @@ Draft:
   html:
     template: article.html
     commandline:
-      include-in-header: "`/Users/msprevak/.panzer/template/css/momento-pandoc.css`"
+      include-in-header: "`/home/david/.panzer/template/css/\
+                          momento-pandoc.css`"
 
 # Add the bibliography
 Article:
@@ -190,8 +375,8 @@ Notes:
   latex:
     template: notes.latex
     metadata:
-      sans-style: false     # sans serif headings
-      tabbing-digits: false # fixed-size digits
+      sans-style: false      # sans serif headings
+      tabbing-digits: false  # fixed-size digits
       fontsize: 11pt
       geometry:
         - top=2.5cm
@@ -202,69 +387,10 @@ Notes:
   html:
     template: article.html
     metadata:
-      css: "/Users/msprevak/.panzer/template/css/momento-pandoc.css"
+      css: "/home/david/.panzer/template/css/momento-pandoc.css"
 
 # Variation on the Notes style with sans serif heading titles
 SansHeadings:
   latex:
     metadata:
       sans-style: true
-
-
-##################################################################
-#  Produces documents that look like Mumford method ones         #
-#  https://www.nottingham.ac.uk/Arts/Documents/MumfordMethod.pdf #
-##################################################################
-
-Mumford:
-  parent:
-    - Base
-  latex:
-    template: mumford.latex
-    metadata:
-      fontsize: 11pt
-      linkcolor: BlueViolet
-      citecolor: BlueViolet
-      urlcolor: BlueViolet
-
-####################################
-#  University of Edinburgh letter  #
-####################################
-
-Letter:
-  parent:
-    - Base
-  all:
-    metadata:
-      opening: false
-      closing: "Yours sincerely,"
-      letterhead:
-        image: "/Users/msprevak/.panzer/template/img/eulogo.pdf"
-        name: "Dr.\ MARK SPREVAK"
-        position: "SENIOR LECTURER"
-        affiliation: "SCHOOL *of* PHILOSOPHY, PSYCHOLOGY *and* LANGUAGE SCIENCES"
-        address: |
-          | The University of Edinburgh
-          | Dugald Stewart Building
-          | 3 Charles Street
-          | Edinburgh EH8 9AD
-        phone: "+44 (0)131 650 3960"
-        email: "mark.sprevak@ed.ac.uk"
-        website: "http://marksprevak.com/"
-      cc: false
-      ps: false
-      incl: false
-      signed: true      # sign using image below
-      signature: "/Users/msprevak/Documents/-resources-/Signature.png"
-  latex:
-    template: UoE-letter.latex
-    metadata:
-      fontsize: 11pt
-      documentclass: infletr
-      classoption:
-        - LFCS
-      fontfamily: txfonts
-      graphics: true
-    filter:
-      - run: heading2bold.py
-

@@ -22,15 +22,17 @@ sys.path.append(os.path.join(os.environ['PANZER_SHARED'], 'python'))
 import panzertools
 from pandocfilters import toJSONFilter, Header
 
-new_level = 1
+NEW_LEVEL = 1
+
 
 def rehead(key, value, format, meta):
+    """docstring for rehead"""
     if key == 'Header':
-        return Header(new_level + (value[0] - 1), value[1], value[2])
+        return Header(NEW_LEVEL + (value[0] - 1), value[1], value[2])
+
 
 if __name__ == "__main__":
     if len(sys.argv) >= 3:
-        new_level = max(min(5, int(sys.argv[2])), 1)
-    panzertools.log('INFO', 'base header level set to %d' % new_level)
+        NEW_LEVEL = max(min(5, int(sys.argv[2])), 1)
+    panzertools.log('INFO', 'base header level set to %d' % NEW_LEVEL)
     toJSONFilter(rehead)
-

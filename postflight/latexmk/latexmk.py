@@ -17,6 +17,7 @@ import panzertools
 
 LATEXMK_OPTS = ['-f', '-silent', '-pdf']
 
+
 def run_latexmk(filepath):
     """docstring for run_latexmk"""
     target = panzertools.FileInfo(filepath)
@@ -42,26 +43,26 @@ def run_latexmk(filepath):
     if os.path.exists(pdf_mangled.filename()):
         before_pdf_ = os.path.getmtime(pdf_mangled.filename())
     my_env = os.environ.copy()
-    my_env['LC_MESSAGES'] = 'en_GB.UTF-8'
-    my_env['LANG']='en_GB.UTF-8'
-    my_env['LC_CTYPE']='en_GB.UTF-8'
-    my_env['LC_NUMERIC']='en_GB.UTF-8'
-    my_env['LC_TIME']='en_GB.UTF-8'
-    my_env['LC_COLLATE']='en_GB.UTF-8'
-    my_env['LC_MONETARY']='en_GB.UTF-8'
-    my_env['LC_MESSAGES']='en_GB.UTF-8'
-    my_env['LC_PAPER']='en_GB.UTF-8'
-    my_env['LC_NAME']='en_GB.UTF-8'
-    my_env['LC_ADDRESS']='en_GB.UTF-8'
-    my_env['LC_TELEPHONE']='en_GB.UTF-8'
-    my_env['LC_MEASUREMENT']='en_GB.UTF-8'
-    my_env['LC_IDENTIFICATION']='en_GB.UTF-8'
+    my_env['LC_MESSAGES'] = 'en_AU.UTF-8'
+    my_env['LANG'] = 'en_AU.UTF-8'
+    my_env['LC_CTYPE'] = 'en_AU.UTF-8'
+    my_env['LC_NUMERIC'] = 'en_AU.UTF-8'
+    my_env['LC_TIME'] = 'en_AU.UTF-8'
+    my_env['LC_COLLATE'] = 'en_AU.UTF-8'
+    my_env['LC_MONETARY'] = 'en_AU.UTF-8'
+    my_env['LC_MESSAGES'] = 'en_AU.UTF-8'
+    my_env['LC_PAPER'] = 'en_AU.UTF-8'
+    my_env['LC_NAME'] = 'en_AU.UTF-8'
+    my_env['LC_ADDRESS'] = 'en_AU.UTF-8'
+    my_env['LC_TELEPHONE'] = 'en_AU.UTF-8'
+    my_env['LC_MEASUREMENT'] = 'en_AU.UTF-8'
+    my_env['LC_IDENTIFICATION'] = 'en_AU.UTF-8'
     try:
-        p = subprocess.Popen(command,
-                             stdout=subprocess.PIPE,
-                             stderr=subprocess.PIPE,
-                             env=my_env)
-        stdout_bytes, stderr_bytes = p.communicate()
+        proc = subprocess.Popen(command,
+                                stdout=subprocess.PIPE,
+                                stderr=subprocess.PIPE,
+                                env=my_env)
+        stdout_bytes, stderr_bytes = proc.communicate()
         if stdout_bytes:
             stdout = stdout_bytes.decode(panzertools.ENCODING, errors='ignore')
             for line in stdout.splitlines():
@@ -83,9 +84,13 @@ def run_latexmk(filepath):
     # output file exists, but is unchanged
     elif before_pdf_ == after_pdf_:
         if os.path.exists(pdf.filename()) \
-        and os.path.getsize(pdf.filename()) == os.path.getsize(pdf_mangled.filename()) \
-        and filecmp.cmp(pdf.filename(), pdf_mangled.filename(), shallow=False):
-            panzertools.log('INFO', 'target already up to date "%s"' % pdf.filename())
+                and os.path.getsize(pdf.filename()) == \
+                os.path.getsize(pdf_mangled.filename()) \
+                and filecmp.cmp(pdf.filename(), pdf_mangled.filename(),
+                                shallow=False):
+            panzertools.log('INFO',
+                            'target already up to date "%s"'
+                            % pdf.filename())
         else:
             panzertools.log('ERROR', 'no output written')
     else:
@@ -97,13 +102,15 @@ def main():
     """docstring for main"""
     OPTIONS = panzertools.read_options()
     filepath = OPTIONS['pandoc']['output']
-    if filepath != '-' and not OPTIONS['pandoc']['pdf_output'] and os.path.exists(filepath):
+    if filepath != '-' and not OPTIONS['pandoc']['pdf_output'] \
+            and os.path.exists(filepath):
         old_cwd = os.getcwd()
         try:
             run_latexmk(filepath)
         finally:
             os.chdir(old_cwd)
-            panzertools.log('INFO', 'restored working directory to "%s"' % old_cwd)
+            panzertools.log('INFO',
+                            'restored working directory to "%s"' % old_cwd)
     else:
         panzertools.log('INFO', 'not run')
 
@@ -112,4 +119,3 @@ def main():
 # the program.
 if __name__ == '__main__':
     main()
-

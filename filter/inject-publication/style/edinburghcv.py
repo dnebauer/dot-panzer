@@ -2,283 +2,318 @@
 #  default formatter  #
 #######################
 
-def default(e):
-    o = str()
-    o += e['title']
-    o += '  -- WARNING: default formatter activated!'
-    return o
+
+def default(entry):
+    """docstring stub"""
+    output = str()
+    output += entry['title']
+    output += '  -- WARNING: default formatter activated!'
+    return output
+
 
 ###########################################
 #  formmatters for each publication type  #
 ###########################################
 
-def article(e):
-    o = str()
-    o += "'%s'" % e['title']
-    o += add_coauthors(e)
-    try:
-        if e['published']['journal']:
-            o += '\\' + '\n'
-            o += '*%s*' % e['published']['journal']
-    except KeyError:
-        pass
-    try:
-        if e['published']['year']:
-            o += ' (%s)' % str(e['published']['year'])
-    except KeyError:
-        pass
-    try:
-        if e['published']['volume']:
-            o += ' %s' % str(e['published']['volume'])
-    except KeyError:
-        pass
-    try:
-        if e['published']['pages']:
-            o += ', %s' % e['published']['pages']
-    except KeyError:
-        pass
-    o += add_note(e)
-    o += add_urls(e)
-    return o
 
-def bookreview(e):
-    return article(e)
+def article(entry):
+    """docstring stub"""
+    output = str()
+    output += "'%s'" % entry['title']
+    output += add_coauthors(entry)
+    try:
+        if entry['published']['journal']:
+            output += '\\' + '\n'
+            output += '*%s*' % entry['published']['journal']
+    except KeyError:
+        pass
+    try:
+        if entry['published']['year']:
+            output += ' (%s)' % str(entry['published']['year'])
+    except KeyError:
+        pass
+    try:
+        if entry['published']['volume']:
+            output += ' %s' % str(entry['published']['volume'])
+    except KeyError:
+        pass
+    try:
+        if entry['published']['pages']:
+            output += ', %s' % entry['published']['pages']
+    except KeyError:
+        pass
+    output += add_note(entry)
+    output += add_urls(entry)
+    return output
 
-def monograph(e):
-    o = str()
-    o += "*%s*" % e['title']
-    o += add_coauthors(e)
-    o += '\\' + '\n'
-    try:
-        if e['published']['publisher']:
-            o += '%s' % e['published']['publisher']
-    except KeyError:
-        pass
-    try:
-        if e['published']['address']:
-            o += ': %s' % e['published']['address']
-    except KeyError:
-        pass
-    try:
-        if e['published']['year']:
-            o += ' (%s)' % str(e['published']['year'])
-    except KeyError:
-        pass
-    try:
-        if e['published']['length']:
-            o += ', %s' % e['published']['length']
-    except KeyError:
-        pass
-    o += add_note(e)
-    o += add_urls(e)
-    return o
 
-def editedcollection(e):
-    o = str()
-    o += "*%s*" % e['title']
-    o += add_coeditors(e)
-    o += '\\' + '\n'
-    try:
-        if e['published']['publisher']:
-            o += '%s' % e['published']['publisher']
-    except KeyError:
-        pass
-    try:
-        if e['published']['address']:
-            o += ': %s' % e['published']['address']
-    except KeyError:
-        pass
-    try:
-        if e['published']['year']:
-            o += ' (%s)' % str(e['published']['year'])
-    except KeyError:
-        pass
-    try:
-        if e['published']['length']:
-            o += ', %s' % e['published']['length']
-    except KeyError:
-        pass
-    o += add_note(e)
-    o += add_urls(e)
-    return o
+def bookreview(entry):
+    """docstring stub"""
+    return article(entry)
 
-def specialissue(e):
-    o = str()
-    o += "%s" % e['title']
-    o += add_coeditors(e)
-    o += '\\' + '\n'
-    try:
-        if e['published']['journal']:
-            o += '*%s*' % e['published']['journal']
-    except KeyError:
-        pass
-    try:
-        if e['published']['year']:
-            o += ' (%s)' % str(e['published']['year'])
-    except KeyError:
-        pass
-    try:
-        if e['published']['length']:
-            o += ', %s' % e['published']['length']
-    except KeyError:
-        pass
-    o += add_note(e)
-    o += add_urls(e)
-    return o
 
-def incollection(e):
-    o = str()
-    if 'title' in e:
-        o += "'%s'" % e['title']
-    elif 'description' in e:
-        o += "%s" % e['description']
-    o += add_coauthors(e)
-    o += '\\' + '\n'
-    o += 'in '
-    o += add_volumeeditors(e)
-    o += ' '
+def monograph(entry):
+    """docstring stub"""
+    output = str()
+    output += "*%s*" % entry['title']
+    output += add_coauthors(entry)
+    output += '\\' + '\n'
     try:
-        if e['published']['booktitle']:
-            o += '*%s*' % e['published']['booktitle']
+        if entry['published']['publisher']:
+            output += '%s' % entry['published']['publisher']
     except KeyError:
         pass
     try:
-        if e['published']['year']:
-            o += ' (%s)' % str(e['published']['year'])
+        if entry['published']['address']:
+            output += ': %s' % entry['published']['address']
     except KeyError:
         pass
     try:
-        if e['published']['publisher']:
-            o += ', %s' % e['published']['publisher']
+        if entry['published']['year']:
+            output += ' (%s)' % str(entry['published']['year'])
     except KeyError:
         pass
     try:
-        if e['published']['address']:
-            o += ': %s' % e['published']['address']
+        if entry['published']['length']:
+            output += ', %s' % entry['published']['length']
     except KeyError:
         pass
-    try:
-        if e['published']['pages']:
-            o += ', %s' % e['published']['pages']
-    except KeyError:
-        pass
-    o += add_note(e)
-    o += add_urls(e)
-    return o
+    output += add_note(entry)
+    output += add_urls(entry)
+    return output
 
-def misc(e):
-    return incollection(e)
+
+def editedcollection(entry):
+    """docstring stub"""
+    output = str()
+    output += "*%s*" % entry['title']
+    output += add_coeditors(entry)
+    output += '\\' + '\n'
+    try:
+        if entry['published']['publisher']:
+            output += '%s' % entry['published']['publisher']
+    except KeyError:
+        pass
+    try:
+        if entry['published']['address']:
+            output += ': %s' % entry['published']['address']
+    except KeyError:
+        pass
+    try:
+        if entry['published']['year']:
+            output += ' (%s)' % str(entry['published']['year'])
+    except KeyError:
+        pass
+    try:
+        if entry['published']['length']:
+            output += ', %s' % entry['published']['length']
+    except KeyError:
+        pass
+    output += add_note(entry)
+    output += add_urls(entry)
+    return output
+
+
+def specialissue(entry):
+    """docstring stub"""
+    output = str()
+    output += "%s" % entry['title']
+    output += add_coeditors(entry)
+    output += '\\' + '\n'
+    try:
+        if entry['published']['journal']:
+            output += '*%s*' % entry['published']['journal']
+    except KeyError:
+        pass
+    try:
+        if entry['published']['year']:
+            output += ' (%s)' % str(entry['published']['year'])
+    except KeyError:
+        pass
+    try:
+        if entry['published']['length']:
+            output += ', %s' % entry['published']['length']
+    except KeyError:
+        pass
+    output += add_note(entry)
+    output += add_urls(entry)
+    return output
+
+
+def incollection(entry):
+    """docstring stub"""
+    output = str()
+    if 'title' in entry:
+        output += "'%s'" % entry['title']
+    elif 'description' in entry:
+        output += "%s" % entry['description']
+    output += add_coauthors(entry)
+    output += '\\' + '\n'
+    output += 'in '
+    output += add_volumeeditors(entry)
+    output += ' '
+    try:
+        if entry['published']['booktitle']:
+            output += '*%s*' % entry['published']['booktitle']
+    except KeyError:
+        pass
+    try:
+        if entry['published']['year']:
+            output += ' (%s)' % str(entry['published']['year'])
+    except KeyError:
+        pass
+    try:
+        if entry['published']['publisher']:
+            output += ', %s' % entry['published']['publisher']
+    except KeyError:
+        pass
+    try:
+        if entry['published']['address']:
+            output += ': %s' % entry['published']['address']
+    except KeyError:
+        pass
+    try:
+        if entry['published']['pages']:
+            output += ', %s' % entry['published']['pages']
+    except KeyError:
+        pass
+    output += add_note(entry)
+    output += add_urls(entry)
+    return output
+
+
+def misc(entry):
+    """docstring stub"""
+    return incollection(entry)
+
 
 ######################
 #  helper functions  #
 ######################
 
 
-def add_coauthors(e):
-    o = str()
-    if len(e['author']) == 1:
-        return o
-    o += ' (with '
+def add_coauthors(entry):
+    """docstring stub"""
+    output = str()
+    if len(entry['author']) == 1:
+        return output
+    output += ' (with '
     a_list = [a
-              for a in e['author']
+              for a in entry['author']
               if a['name_last'] != 'Sprevak' and a['name_first'] != 'Mark']
-    o += concat(a_list, ', ', ' and ')
-    o += ')'
-    return o
+    output += concat(a_list, ', ', ' and ')
+    output += ')'
+    return output
 
-def add_coeditors(e):
-    o = str()
-    if len(e['editor']) == 1:
-        o += ' (Ed.)'
-        return o
-    o += ' (with '
+
+def add_coeditors(entry):
+    """docstring stub"""
+    output = str()
+    if len(entry['editor']) == 1:
+        output += ' (Ed.)'
+        return output
+    output += ' (with '
     a_list = [a
-              for a in e['editor']
+              for a in entry['editor']
               if a['name_last'] != 'Sprevak' and a['name_first'] != 'Mark']
-    o += concat(a_list, ', ', ' and ')
-    o += ')'
-    o += ' (Eds.)'
-    return o
+    output += concat(a_list, ', ', ' and ')
+    output += ')'
+    output += ' (Eds.)'
+    return output
 
-def add_volumeeditors(e):
-    o = str()
+
+def add_volumeeditors(entry):
+    """docstring stub"""
+    output = str()
     try:
-        if not e['published']['editor']:
-            return o
+        if not entry['published']['editor']:
+            return output
     except KeyError:
-        return o
-    o += concat_useinitials(e['published']['editor'], ', ', ' and ')
-    if len(e['published']['editor']) > 1:
-        o += ' (Eds.)'
+        return output
+    output += concat_useinitials(entry['published']['editor'], ', ', ' and ')
+    if len(entry['published']['editor']) > 1:
+        output += ' (Eds.)'
     else:
-        o += ' (Ed.)'
-    return o
+        output += ' (Ed.)'
+    return output
+
 
 def name2initials(name):
-   return ' '.join([n[0] + '.' for n in name.split()])
+    """docstring stub"""
+    return ' '.join([n[0] + '.' for n in name.split()])
 
-def concat(l, sep, final_sep):
-    o = str()
-    if not l:
-        return o
-    o += l[0]['name_first'] + ' ' + l[0]['name_last']
-    if len(l) == 1:
-        return o
-    for i in range(1, len(l) - 1):
-        o += sep
-        o += l[i]['name_first'] + ' ' + l[i]['name_last']
-    o += final_sep
-    o += l[-1]['name_first'] + ' ' + l[-1]['name_last']
-    return o
 
-def concat_useinitials(l, sep, final_sep):
-    o = str()
+def concat(init_list, sep, final_sep):
+    """docstring stub"""
+    output = str()
+    if not init_list:
+        return output
+    output += init_list[0]['name_first'] + ' ' + init_list[0]['name_last']
+    if len(init_list) == 1:
+        return output
+    for i in range(1, len(init_list) - 1):
+        output += sep
+        output += init_list[i]['name_first'] + ' ' + init_list[i]['name_last']
+    output += final_sep
+    output += init_list[-1]['name_first'] + ' ' + init_list[-1]['name_last']
+    return output
+
+
+def concat_useinitials(init_list, sep, final_sep):
+    """docstring stub"""
+    output = str()
     # no one in list
-    if not l:
-        return o
+    if not init_list:
+        return output
     # first person in list
-    o += name2initials(l[0]['name_first'])
-    o += ' '
-    o += l[0]['name_last']
-    if len(l) == 1:
-        return o
+    output += name2initials(init_list[0]['name_first'])
+    output += ' '
+    output += init_list[0]['name_last']
+    if len(init_list) == 1:
+        return output
     # everyone else until penultimate person
-    for i in range(1, len(l) - 1):
-        o += sep
-        o += name2initials(l[i]['name_first'])
-        o += ' '
-        o += l[i]['name_last']
+    for i in range(1, len(init_list) - 1):
+        output += sep
+        output += name2initials(init_list[i]['name_first'])
+        output += ' '
+        output += init_list[i]['name_last']
     # last person in list
-    o += final_sep
-    o += name2initials(l[-1]['name_first'])
-    o += ' '
-    o += l[-1]['name_last']
-    return o
+    output += final_sep
+    output += name2initials(init_list[-1]['name_first'])
+    output += ' '
+    output += init_list[-1]['name_last']
+    return output
 
-def add_note(e):
-    o = str()
-    if 'published' in e and 'note' in e['published'] and e['published']['note']:
-        o += ' (%s)' % e['published']['note']
-    return o
 
-def add_urls(e):
-    o = str()
-    o += '\\' + '\n'
+def add_note(entry):
+    """docstring stub"""
+    output = str()
+    if 'published' in entry and 'note' in entry['published'] \
+            and entry['published']['note']:
+        output += ' (%s)' % entry['published']['note']
+    return output
+
+
+def add_urls(entry):
+    """docstring stub"""
+    output = str()
+    output += '\\' + '\n'
     try:
-        if e['deploy']['url']:
-            o += '[[PDF]](%s)' % e['deploy']['url']
+        if entry['deploy']['url']:
+            output += '[[PDF]](%s)' % entry['deploy']['url']
     except KeyError:
         pass
     try:
-        if e['published']['doi']:
-            o += ' '
-            o += '[[DOI]](http://dx.doi.org/%s)' % e['published']['doi']
+        if entry['published']['doi']:
+            output += ' '
+            output += '[[DOI]](http://dx.doi.org/%s)' \
+                % entry['published']['doi']
     except KeyError:
         pass
     try:
-        for u in e['published']['href']:
-            o += ' '
-            o += '[[%s]](%s)' % (u['title'], u['url'])
+        for url in entry['published']['href']:
+            output += ' '
+            output += '[[%s]](%s)' % (url['title'], url['url'])
     except KeyError:
         pass
-    return o
+    return output

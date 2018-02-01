@@ -1,57 +1,60 @@
-def get(e, key, default):
+"""docstring stub"""
+
+
+def get(entry, key, default):
     """
-    return e.get(key, default)
+    return entry.get(key, default)
     if bibtex version of key not found, use biblatex version
     """
-    BIBLATEX = {'year': 'date',
+    biblatex = {'year': 'date',
                 'journal': 'journaltitle',
                 'address': 'location'}
-    if key not in BIBLATEX:
-        return e.get(key, default)
-    else:
-        return e.get(key, e.get(BIBLATEX[key], default))
+    if key not in biblatex:
+        return entry.get(key, default)
+    return entry.get(key, entry.get(biblatex[key], default))
 
 
-def author_or_editor(e, max_num):
+def author_or_editor(entry, max_num):
     """
     return string flattened list of either authors or editors
     - authors returned in preference to editors
     - if neither found, then '=no author=' is returned
-    :e: bibtex entry
+    :entry: bibtex entry
     :max_num: maximum number of names to include, other marked by 'et al'
     :returns: string with authors or editors
     """
-    authors = get(e, 'author', None)
-    editors = get(e, 'editor', None)
+    authors = get(entry, 'author', None)
+    editors = get(entry, 'editor', None)
     if authors:
         return flatten_list(authors, max_num)
-    elif editors:
+    if editors:
         return flatten_list(editors, max_num)
-    else:
-        return '=no author='
+    return '=no author='
 
-def author(e, max_num):
+
+def author(entry, max_num):
     """
     return string flattened list of authors
     - if not found, then '=no author=' is returned
-    :e: bibtex entry
+    :entry: bibtex entry
     :max_num: maximum number of names to include, other marked by 'et al'
     :returns: string with authors
     """
-    authors = get(e, 'author', ['=no author='])
+    authors = get(entry, 'author', ['=no author='])
     return flatten_list(authors, max_num)
 
 
-def editor(e, max_num):
+def editor(entry, max_num):
     """
     return string flattened list of editors
     - if not found, then '=no author=' is returned
-    :e: bibtex entry
+    :entry: bibtex entry
     :max_num: maximum number of names to include, other marked by 'et al'
     :returns: string with editors
     """
-    editors = get(e, 'editor', ['=no editor='])
+    editors = get(entry, 'editor', ['=no editor='])
     return flatten_list(editors, max_num)
+
 
 def flatten_list(names, max_num):
     """
@@ -61,17 +64,18 @@ def flatten_list(names, max_num):
     :returns: string of flattened list
     """
     # sanity check: empty list returns empty string
-    if len(names) == 0:
+    if not names:
         return ''
     # add first author
     text = names[0]
     # add next authors
     for i in range(1, min(max_num, len(names))):
-            text += ' and ' + names[i]
+        text += ' and ' + names[i]
     # add truncated authors
     if len(names) > max_num:
         text += ' et al.'
     return text
+
 
 def remove_latex_crap(incoming):
     """
@@ -86,7 +90,6 @@ def remove_latex_crap(incoming):
             ('\\', ''),
             ('--', '-')]
     text = incoming
-    for s in subs:
-        text = text.replace(s[0], s[1])
+    for sub in subs:
+        text = text.replace(sub[0], sub[1])
     return text
-

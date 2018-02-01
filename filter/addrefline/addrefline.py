@@ -8,8 +8,7 @@ Add extra section heading at end of document:
 
 import json
 import sys
-import os
-from pandocfilters import *
+from pandocfilters import Str
 
 
 def main():
@@ -25,8 +24,8 @@ def main():
     sys.stdout.write(json.dumps(ast))
     sys.stdout.flush()
 
+
 # Standard boilerplate to call the main() function to begin
 # the program.
 if __name__ == '__main__':
     main()
-

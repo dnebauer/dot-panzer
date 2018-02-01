@@ -1,105 +1,122 @@
 from util import there
 
+
 #######################
 #  default formatter  #
 #######################
 
-def default(e):
-    o = '**WARNING**: default formatter activated!'
-    return o
+
+def default(entry):
+    """docstring stub"""
+    output = '**WARNING**: default formatter activated!'
+    return output
+
 
 ###########################################
 #  formmatters for each publication type  #
 ###########################################
 
-def article(e):
-    o = str()
-    o += prefix(e)
-    info = e['published']
+
+def article(entry):
+    """docstring stub"""
+    output = str()
+    output += prefix(entry)
+    info = entry['published']
     if there('journal', info):
-        o += '*' + info['journal'] + '*'
-        o += ' '
+        output += '*' + info['journal'] + '*'
+        output += ' '
     if there('year', info):
-        o += '(' + str(info['year']) + ')'
-        o += ' '
+        output += '(' + str(info['year']) + ')'
+        output += ' '
     if there('volume', info):
-        o +=  str(info['volume'])
-        o += ': '
+        output += str(info['volume'])
+        output += ': '
     if there('pages', info):
-            o +=  info['pages']
-    o = o.rstrip()
-    return o
+        output += info['pages']
+    output = output.rstrip()
+    return output
 
-def incollection(e):
-    o = str()
-    o += prefix(e)
-    info = e['published']
+
+def incollection(entry):
+    """docstring stub"""
+    output = str()
+    output += prefix(entry)
+    info = entry['published']
     if there('editor', info):
-        o += concat_useinitials(info['editor'], ', ', ' & ')
-        o += ' '
+        output += concat_useinitials(info['editor'], ', ', ' & ')
+        output += ' '
         if len(info['editor']) > 1:
-            o += '(Eds.)'
+            output += '(Eds.)'
         else:
-            o += '(Ed.)'
-        o += ' '
+            output += '(Ed.)'
+        output += ' '
     if there('booktitle', info):
-        o += '*' + info['booktitle'] + '*'
-    if there('year', info) and type(info['year']) is int:
-        o += ' '
-        o += '(' + str(info['year']) + ')'
+        output += '*' + info['booktitle'] + '*'
+    if there('year', info) and isinstance(info['year'], int):
+        output += ' '
+        output += '(' + str(info['year']) + ')'
     if there('address', info):
-        o += ', '
-        o += info['address']
-        o += ': '
+        output += ', '
+        output += info['address']
+        output += ': '
     if there('publisher', info):
-        o += info['publisher']
+        output += info['publisher']
     if there('pages', info):
-        o += ', '
-        o += 'pp. ' + info['pages']
+        output += ', '
+        output += 'pp. ' + info['pages']
     elif there('chapter', info):
-        o += 'chapter ' + info['chapter']
-    o = o.rstrip()
-    o = o.rstrip(',')
-    return o
+        output += 'chapter ' + info['chapter']
+    output = output.rstrip()
+    output = output.rstrip(',')
+    return output
 
-def bookreview(e):
-    return article(e)
+
+def bookreview(entry):
+    """docstring stub"""
+    return article(entry)
+
 
 ######################
 #  helper functions  #
 ######################
 
+
 def name2initials(name):
-   return ' '.join([n[0] + '.' for n in name.split()])
+    """docstring stub"""
+    return ' '.join([n[0] + '.' for n in name.split()])
 
-def concat_useinitials(l, sep, final_sep):
-    o = str()
+
+def concat_useinitials(inits, sep, final_sep):
+    """docstring stub"""
+    output = str()
     # no one in list
-    if not l:
-        return o
+    if not inits:
+        return output
     # first person in list
-    o += name2initials(l[0]['name_first'])
-    o += ' '
-    o += l[0]['name_last']
-    if len(l) == 1:
-        return o
+    output += name2initials(inits[0]['name_first'])
+    output += ' '
+    output += inits[0]['name_last']
+    if len(inits) == 1:
+        return output
     # everyone else until penultimate person
-    for i in range(1, len(l) - 1):
-        o += sep
-        o += name2initials(l[i]['name_first'])
-        o += ' '
-        o += l[i]['name_last']
+    for i in range(1, len(inits) - 1):
+        output += sep
+        output += name2initials(inits[i]['name_first'])
+        output += ' '
+        output += inits[i]['name_last']
     # last person in list
-    o += final_sep
-    o += name2initials(l[-1]['name_first'])
-    o += ' '
-    o += l[-1]['name_last']
-    return o
+    output += final_sep
+    output += name2initials(inits[-1]['name_first'])
+    output += ' '
+    output += inits[-1]['name_last']
+    return output
 
-def prefix(e):
-    if 'status' in e:
-        if e['status'] == 'published':
+
+def prefix(entry):
+    """docstring stub"""
+    if 'status' in entry:
+        if entry['status'] == 'published':
             return 'Published in '
-        elif e['status'] == 'forthcoming':
+        elif entry['status'] == 'forthcoming':
             return 'Forthcoming in '
     return 'Final version due to appear in '

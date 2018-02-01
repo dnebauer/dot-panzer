@@ -12,7 +12,8 @@ transforms:
 
 to use small caps for ONE and TWO.
 
-Will transform anything in the list in the document delimited by whitespace or punctuation.
+Will transform anything in the list in the document delimited by whitespace or
+punctuation.
 """
 
 import sys
@@ -20,24 +21,28 @@ import os
 from pandocfilters import toJSONFilter, Str, SmallCaps, stringify
 
 def get_list(meta):
-    if get_list.checked == True:
+    if get_list.checked is True:
         pass
     else:
         try:
             get_list.checked = True
-            get_list.hitlist = [stringify(x) for x in meta.get('smallcaps', {})['c']]
+            get_list.hitlist = [stringify(x) for x
+                                in meta.get('smallcaps', {})['c']]
         except KeyError:
             pass
     return get_list.hitlist
 
+
 get_list.hitlist = list()
 get_list.checked = False
+
 
 def clean(word):
     """
     target words are delimited by letters or digits
     """
-    clean_chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
+    clean_chars = \
+        'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
     word_index = range(0, len(word))
     for start in word_index:
         if word[start] in clean_chars:
@@ -45,13 +50,15 @@ def clean(word):
     for end in reversed(word_index):
         if word[end] in clean_chars:
             break
-    return(word[start:end+1])
+    return word[start:end+1]
+
 
 def smallcaps(key, value, format, meta):
+    """docstring stub"""
     if key == 'Str':
         if clean(value) in get_list(meta):
             return SmallCaps([Str(value.lower())])
 
+
 if __name__ == "__main__":
     toJSONFilter(smallcaps)
-

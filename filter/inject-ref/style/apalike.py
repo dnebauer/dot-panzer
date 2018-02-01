@@ -1,10 +1,14 @@
-def default(e):
+"""docstring stub"""
+
+
+def default(entry):
+    """docstring stub"""
     # get the data
-    author = author_or_editor(e, 5)
-    year = myget(e, 'year', 'no year')
-    title = myget(e, 'title', '=no title=')
-    bibtex_key = e['ID']
-    bibtex_type = e['ENTRYTYPE']
+    author = author_or_editor(entry, 5)
+    year = myget(entry, 'year', 'no year')
+    title = myget(entry, 'title', '=no title=')
+    bibtex_key = entry['ID']
+    bibtex_type = entry['ENTRYTYPE']
     # build the string
     text = str()
     text += author
@@ -16,16 +20,18 @@ def default(e):
     text = remove_latex_crap(text)
     return text
 
-def article(e):
+
+def article(entry):
+    """docstring stub"""
     # get the data
-    author = author_or_editor(e, 5)
-    year = myget(e, 'year', 'no year')
-    title = myget(e, 'title', '=no title=')
-    journal = myget(e, 'journal', '=no journal=')
-    volume = myget(e, 'volume', None)
-    pages = myget(e, 'pages', None)
-    bibtex_key = e['ID']
-    bibtex_type = e['ENTRYTYPE']
+    author = author_or_editor(entry, 5)
+    year = myget(entry, 'year', 'no year')
+    title = myget(entry, 'title', '=no title=')
+    journal = myget(entry, 'journal', '=no journal=')
+    volume = myget(entry, 'volume', None)
+    pages = myget(entry, 'pages', None)
+    bibtex_key = entry['ID']
+    bibtex_type = entry['ENTRYTYPE']
     # build the string
     text = str()
     text += author
@@ -45,13 +51,15 @@ def article(e):
     text = remove_latex_crap(text)
     return text
 
-def unpublished(e):
+
+def unpublished(entry):
+    """docstring stub"""
     # get the data
-    author = author_or_editor(e, 5)
-    year = myget(e, 'year', 'no year')
-    title = myget(e, 'title', '=no title=')
-    bibtex_key = e['ID']
-    bibtex_type = e['ENTRYTYPE']
+    author = author_or_editor(entry, 5)
+    year = myget(entry, 'year', 'no year')
+    title = myget(entry, 'title', '=no title=')
+    bibtex_key = entry['ID']
+    bibtex_type = entry['ENTRYTYPE']
     # build the string
     text = str()
     text += author
@@ -65,14 +73,16 @@ def unpublished(e):
     text = remove_latex_crap(text)
     return text
 
-def phdthesis(e):
+
+def phdthesis(entry):
+    """docstring stub"""
     # get the data
-    author = author_or_editor(e, 5)
-    year = myget(e, 'year', 'no year')
-    title = myget(e, 'title', '=no title=')
-    school = myget(e, 'school', '=no school=')
-    bibtex_key = e['ID']
-    bibtex_type = e['ENTRYTYPE']
+    author = author_or_editor(entry, 5)
+    year = myget(entry, 'year', 'no year')
+    title = myget(entry, 'title', '=no title=')
+    school = myget(entry, 'school', '=no school=')
+    bibtex_key = entry['ID']
+    bibtex_type = entry['ENTRYTYPE']
     # build the string
     text = str()
     text += author
@@ -86,19 +96,23 @@ def phdthesis(e):
     text = remove_latex_crap(text)
     return text
 
-def mastersthesis(e):
-    return phdthesis(e)
 
-def book(e):
+def mastersthesis(entry):
+    """docstring stub"""
+    return phdthesis(entry)
+
+
+def book(entry):
+    """docstring stub"""
     # get the data
-    author = author_or_editor(e, 5)
-    year = myget(e, 'year', 'no year')
-    title = myget(e, 'title', '=no title=')
-    publisher = myget(e, 'publisher', None)
-    address = myget(e, 'address', None)
-    edition = myget(e, 'edition', None)
-    bibtex_key = e['ID']
-    bibtex_type = e['ENTRYTYPE']
+    author = author_or_editor(entry, 5)
+    year = myget(entry, 'year', 'no year')
+    title = myget(entry, 'title', '=no title=')
+    publisher = myget(entry, 'publisher', None)
+    address = myget(entry, 'address', None)
+    edition = myget(entry, 'edition', None)
+    bibtex_key = entry['ID']
+    bibtex_type = entry['ENTRYTYPE']
     # build the string
     text = str()
     text += author
@@ -128,18 +142,20 @@ def book(e):
     text = remove_latex_crap(text)
     return text
 
-def incollection(e):
+
+def incollection(entry):
+    """docstring stub"""
     # get the data
-    author = author(e, 5)
-    year = myget(e, 'year', 'no year')
-    title = myget(e, 'title', '=no title=')
-    publisher = myget(e, 'publisher', None)
-    address = myget(e, 'address', None)
-    editor = editor(e, 3)
-    pages = myget(e, 'pages', None)
-    booktitle = myget(e, 'booktitle', '=no booktitle=')
-    bibtex_key = e['ID']
-    bibtex_type = e['ENTRYTYPE']
+    author = author(entry, 5)
+    year = myget(entry, 'year', 'no year')
+    title = myget(entry, 'title', '=no title=')
+    publisher = myget(entry, 'publisher', None)
+    address = myget(entry, 'address', None)
+    editor = editor(entry, 3)
+    pages = myget(entry, 'pages', None)
+    booktitle = myget(entry, 'booktitle', '=no booktitle=')
+    bibtex_key = entry['ID']
+    bibtex_type = entry['ENTRYTYPE']
     # build the string
     text = str()
     text += author
@@ -153,7 +169,7 @@ def incollection(e):
             text += ' '
             text += editor
             text += ' '
-            if len(e['editor']) == 1:
+            if len(entry['editor']) == 1:
                 text += '(Ed.)'
             else:
                 text += '(Eds.)'
@@ -173,67 +189,71 @@ def incollection(e):
     text = remove_latex_crap(text)
     return text
 
-def inproceedings(e):
-    return incollection(e)
 
-def inbook(e):
-    return incollection(e)
+def inproceedings(entry):
+    """docstring stub"""
+    return incollection(entry)
 
 
-def myget(e, key, default):
+def inbook(entry):
+    """docstring stub"""
+    return incollection(entry)
+
+
+def myget(entry, key, default):
     """
-    return e.get(key, default)
+    return entry.get(key, default)
     if bibtex version of key not found, use biblatex version
     """
-    BIBLATEX = {'year': 'date',
+    biblatex = {'year': 'date',
                 'journal': 'journaltitle',
                 'address': 'location'}
-    if key not in BIBLATEX:
-        return e.get(key, default)
-    else:
-        return e.get(key, e.get(BIBLATEX[key], default))
+    if key not in biblatex:
+        return entry.get(key, default)
+    return entry.get(key, entry.get(biblatex[key], default))
 
 
-def author_or_editor(e, max_num):
+def author_or_editor(entry, max_num):
     """
     return string flattened list of either authors or editors
     - authors returned in preference to editors
     - if neither found, then '=no author=' is returned
-    :e: bibtex entry
+    :entry: bibtex entry
     :max_num: maximum number of names to include, other marked by 'et al'
     :returns: string with authors or editors
     """
-    authors = myget(e, 'author', None)
-    editors = myget(e, 'editor', None)
+    authors = myget(entry, 'author', None)
+    editors = myget(entry, 'editor', None)
     if authors:
         return flatten_list(authors, max_num)
-    elif editors:
+    if editors:
         return flatten_list(editors, max_num)
-    else:
-        return '=no author='
+    return '=no author='
 
-def author(e, max_num):
+
+def author(entry, max_num):
     """
     return string flattened list of authors
     - if not found, then '=no author=' is returned
-    :e: bibtex entry
+    :entry: bibtex entry
     :max_num: maximum number of names to include, other marked by 'et al'
     :returns: string with authors
     """
-    authors = myget(e, 'author', ['=no author='])
+    authors = myget(entry, 'author', ['=no author='])
     return flatten_list(authors, max_num)
 
 
-def editor(e, max_num):
+def editor(entry, max_num):
     """
     return string flattened list of editors
     - if not found, then '=no author=' is returned
-    :e: bibtex entry
+    :entry: bibtex entry
     :max_num: maximum number of names to include, other marked by 'et al'
     :returns: string with editors
     """
-    editors = myget(e, 'editor', ['=no editor='])
+    editors = myget(entry, 'editor', ['=no editor='])
     return flatten_list(editors, max_num)
+
 
 def flatten_list(names, max_num):
     """
@@ -243,17 +263,18 @@ def flatten_list(names, max_num):
     :returns: string of flattened list
     """
     # sanity check: empty list returns empty string
-    if len(names) == 0:
+    if not names:
         return ''
     # add first author
     text = names[0]
     # add next authors
     for i in range(1, min(max_num, len(names))):
-            text += ' and ' + names[i]
+        text += ' and ' + names[i]
     # add truncated authors
     if len(names) > max_num:
         text += ' et al.'
     return text
+
 
 def remove_latex_crap(incoming):
     """
@@ -271,4 +292,3 @@ def remove_latex_crap(incoming):
     for s in subs:
         text = text.replace(s[0], s[1])
     return text
-

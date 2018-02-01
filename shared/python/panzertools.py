@@ -5,7 +5,9 @@ import sys
 
 ENCODING = 'utf8'
 
+
 class FileInfo(object):
+    """docstring stub"""
 
     def __init__(self, fullpath):
         self.i_fullpath = fullpath
@@ -23,30 +25,37 @@ class FileInfo(object):
             basename: A string with the name (without extension) to be mangled
 
         Returns:
-            A string (input of 'this basefile name' returns '_this-basefile-name_')
+            A string (input of 'this basefile name' returns
+            '_this-basefile-name_')
         """
         old_basename = self.i_basename
-        mangled_basename = '_' + old_basename.replace(' ','-') + '_'
+        mangled_basename = '_' + old_basename.replace(' ', '-') + '_'
         mangled_filename = mangled_basename + self.i_extension
         mangled_fullpath = os.path.join(self.i_parents, mangled_filename)
         return FileInfo(mangled_fullpath)
 
     def fullpath(self):
+        """docstring stub"""
         return self.i_fullpath
 
     def parents(self):
+        """docstring stub"""
         return self.i_parents
 
     def filename(self):
+        """docstring stub"""
         return self.i_filename
 
     def basename(self):
+        """docstring stub"""
         return self.i_basename
 
     def extension(self):
+        """docstring stub"""
         return self.i_extension
 
     def set_fullpath(self, fullpath):
+        """docstring stub"""
         self.i_fullpath = fullpath
         self.i_parents = os.path.split(fullpath)[0]
         self.i_filename = os.path.split(fullpath)[1]
@@ -54,21 +63,25 @@ class FileInfo(object):
         self.i_extension = os.path.splitext(self.i_filename)[1]
 
     def set_parents(self, parents):
+        """docstring stub"""
         self.i_parents = parents
         self.i_fullpath = os.path.join(self.i_parents, self.i_filename)
 
     def set_filename(self, filename):
+        """docstring stub"""
         self.i_filename = filename
         self.i_basename = os.path.splitext(self.i_filename)[0]
         self.i_extension = os.path.splitext(self.i_filename)[1]
         self.i_fullpath = os.path.join(self.i_parents, self.i_filename)
 
     def set_basename(self, basename):
+        """docstring stub"""
         self.i_basename = basename
         self.i_filename = self.i_basename + self.i_extension
         self.i_fullpath = os.path.join(self.i_parents, self.i_filename)
 
     def set_extension(self, extension):
+        """docstring stub"""
         self.i_extension = extension
         self.i_filename = self.i_basename + self.i_extension
         self.i_fullpath = os.path.join(self.i_parents, self.i_filename)
