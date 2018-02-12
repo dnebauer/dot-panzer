@@ -32,11 +32,11 @@ def rehead(key, value, format, meta):
     if key == 'Header' and value[0] == 1:
         if format == 'latex':
             text = '\\newpage\n\\thispagestyle{empty}\n\\setcounter{page}{1}'
-            return [RawInline('latex', text),
+            return [Para([RawInline('latex', text)]),
                     Header(value[0], value[1], value[2])]
         elif format in ['html', 'html5']:
             text = '<hr>'
-            return [RawInline('html', text),
+            return [Para([RawInline('html', text)]),
                     Header(value[0], value[1], value[2])]
 
 
