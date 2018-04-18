@@ -34,9 +34,13 @@ Panzer filter: add metadata files from styles
     A metadata file can be specified by a full path, either full or
     relative to the current working directory. If the file is not a
     valid path, the filter looks for the file in the current
-    directory and in the directory '$HOME/.panzer/custom'. (Note:
-    this directory is not part of the standard panzer configuration
-    directory tree.)
+    directory, then in directory '$HOME/.config/panzer/custom' (this
+    is a non-standard location for the entire panzer tree which is
+    usually in '$HOME/.panzer' and has the non-standard subdirectory
+    'custom'), and finally in directory '$HOME/.panzer/custom' (where
+    the panzer tree is in the default location but with the
+    non-standard subdirectory 'custom'). The first matching file
+    found is used, i.e., the first match wins.
 
     *WARNING*: If other filters to be called rely on metadata
                obtained via this filter, ensure this filter is

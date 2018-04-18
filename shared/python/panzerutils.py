@@ -238,17 +238,24 @@ class PandocAST(object):
             accepting the first to return an existing match:
             1. The raw filename (which could actually be a filepath)
             2. The file is in the current working directory
-            3. The file is in $HOME/.panzer/custom/
+            3. The file is in $HOME/.config/panzer/custom/
+            4. The file is in $HOME/.panzer/custom/
 
             If no match is found, log a debug message.
         """
         cwd = os.getcwd()
-        custom = os.path.join(os.environ['HOME'], '.panzer', 'custom')
+        custom_default = os.path.join(os.environ['HOME'], '.panzer', 'custom')
+        custom_config = os.path.join(os.environ['HOME'], '.config', 'panzer',
+                                     'custom')
         filepaths = []
         for candidate in filenames:
             cwd_fp = os.path.join(cwd, os.path.basename(candidate))
-            custom_fp = os.path.join(custom, os.path.basename(candidate))
-            for fpath in [candidate, cwd_fp, custom_fp]:
+            custom_default_fp = os.path.join(custom_default,
+                                             os.path.basename(candidate))
+            custom_config_fp = os.path.join(custom_config,
+                                            os.path.basename(candidate))
+            for fpath in [candidate, cwd_fp, custom_config_fp,
+                          custom_default_fp]:
                 if os.path.exists(fpath):
                     filepaths.append(fpath)
                     break
