@@ -37,6 +37,15 @@ Base:
       microtypeoptions:
         - babel
   revealjs:
+    metadata:
+      transition: "none"
+      progress: "false"
+      controls: "false"
+      header-includes: |
+        <style type="text/css">
+          img{border: none !important;} 
+        </style>
+    template: revealjs.html
     filter:
       - run: name2auth.py
     commandline:
@@ -306,6 +315,7 @@ Draft:
       metapub_file: "/home/david/Documents/CV/publications.yaml"
       filter:
         - run: metapub.py
+        - run: addacks.py
   latex:
     template: article.latex
     metadata:
@@ -347,6 +357,8 @@ Braindead:
   parent:
     - Article
   all:
+    filter:
+      - kill: addacks.py
     metadata:
       anonymous: false   # change to true to remove author info
       endnotes: false    # change to true for endnotes, not footnotes
@@ -372,6 +384,7 @@ Notes:
   all:
     filter:
       - run: singlelist.py
+      - run: addacks.py
   latex:
     template: notes.latex
     metadata:
