@@ -216,6 +216,20 @@ PaginateSections:
     filter:
       - run: paginatesects.py
 
+# Flush all floats before end of sections
+FlushSections:
+  latex:
+    metadata:
+      metadata-file:
+        - m_latex_flush-sect.md
+
+# Flush all floats before end of sections and subsections
+FlushSubsections:
+  latex:
+    metadata:
+      metadata-file:
+        - m_latex_flush-subsect.md
+
 # Run latex in nonstop/non-interactive mode
 LatexNonStop:
   latex:

@@ -26,10 +26,15 @@ Panzer filter: add metadata files from styles
     'metadata-file' fields from different metadata blocks are additive.
     The way in which these files are processed ensure that if the same
     setting is specified in multiple metadata files, the last one
-    processed will 'win'. Metadata from files specified in the source
-    (markdown) file is processed after that from files specified in
-    the style file, so in case of conflict the source file 'beats' the
-    style file.
+    processed will 'win'. The exception is 'header-includes' fields
+    which are cumulative.
+    
+    Metadata from files specified in the source (markdown) file is
+    processed after that from files specified in the style file, so in
+    case of conflict the source file 'beats' the style file. Note that
+    if the source (markdown) file has a 'header-includes' field it will
+    *not* be cumulative with the 'header-includes' values from the
+    previously read metadata files -- it will completely replace them.
 
     A metadata file can be specified by a full path, either full or
     relative to the current working directory. If the file is not a

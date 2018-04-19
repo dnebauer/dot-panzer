@@ -416,13 +416,28 @@ class PandocAST(object):
     def __read_metadata_files(self):
         """ Uses pandoc to extract metadata files content
             Returns: void (updates self.__metadata_new)
+
+            Where keys are defined in multiple metadata files,
+            each time a key is redefined its value overwrites
+            the earlier value. The key 'header-includes' is
+            treated differently: its contents are harvested
+            while processing the metadata files and all values
+            written back to the metadata after all files are
+            read
         """
+        new_metadata = dict()
+        metadata = dict()
         content = str()
+        headers = list()
         for filepath in self.__metadata_files:
             with open(filepath, 'r') as md_file:
-                content += '\n\n' + md_file.read()
-        metadata = md_to_meta(content)
+                content = md_file.read()
+                new_metadata = md_to_meta(content)
+                if 'header-includes' in new_metadata:
+                    headers += new_metadata['header-includes']['c']
+                metadata.update(new_metadata)
         if metadata:
+            metadata['header-includes']['c'] = headers
             log('DEBUG', 'extracted metadata:')
             log_pretty_json(metadata)
         else:
