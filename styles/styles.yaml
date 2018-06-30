@@ -216,6 +216,12 @@ PaginateSections:
     filter:
       - run: paginatesects.py
 
+# Include external markdown files
+IncludeFiles:
+  all:
+    filter:
+      - run: includefiles.py
+
 # Flush all floats before end of sections
 FlushSections:
   latex:

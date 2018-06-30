@@ -478,6 +478,30 @@ def md_to_meta(markdown):
     return json_ast['meta']
 
 
+def mdfile_to_json(filepath):
+    """ Convert markdown file to json, without meta component
+        Returns: json dict
+
+        Uses pandoc to process markdown file to a json abstract syntax
+        tree (ast) and return the 'blocks' value.
+    """
+    command = ['pandoc', '-',
+               '--from', 'markdown',
+               '--to', 'json',
+               '--standalone',
+               filepath]
+    process = subprocess.Popen(command,
+                               stderr=subprocess.PIPE,
+                               stdout=subprocess.PIPE)
+    stdout_bytes, stderr_bytes = process.communicate()
+    stdout = stdout_bytes.decode(ENCODING, errors='ignore')
+    stderr = stderr_bytes.decode(ENCODING, errors='ignore')
+    for line in stderr.splitlines():
+        log('ERROR', line)
+    json_ast = json.loads(stdout)
+    return json_ast['blocks']
+
+
 def log(level, message):
     """ Add message to panzer log file
     """
