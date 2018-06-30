@@ -6,7 +6,7 @@ from util import there
 #######################
 
 
-def default(entry):
+def default():
     """docstring stub"""
     output = '**WARNING**: default formatter activated!'
     return output
@@ -118,5 +118,7 @@ def prefix(entry):
         if entry['status'] == 'published':
             return 'Published in '
         elif entry['status'] == 'forthcoming':
-            return 'Forthcoming in '
+            return 'Final version due to appear in '
+        elif entry['status'] == 'in press':
+            return 'In press with '
     return 'Final version due to appear in '

@@ -79,6 +79,7 @@ def main():
     add_abstract(new, entry)
     add_keywords(new, entry)
     add_note(new, entry)
+    add_review(new, entry)
     # convert new metadata to pandoc's ast metadata format
     log('DEBUG', 'new metadata: ' + str(new))
     incoming = generate_meta(new)
@@ -109,8 +110,8 @@ def add_date_updated(new, entry):
 def add_disclaimer(new, entry):
     if there('disclaimer', entry):
         new['disclaimer'] = entry['disclaimer']
-    elif there('status', entry) and entry['status'] \
-            in ['proposed', 'in preparation']:
+    elif (there('status', entry) and entry['status']
+            in ['proposed', 'in preparation', 'forthcoming']):
         new['disclaimer'] = '*Draft only. Do not cite without permission.*'
 
 
@@ -144,6 +145,9 @@ def add_keywords(new, entry):
     if there('keywords', entry):
         new['keywords'] = entry['keywords']
 
+def add_review(new, entry):
+    if there('review', entry):
+        new['review'] = entry['review']
 
 def read_ast():
     log('DEBUG', 'reading ast')
