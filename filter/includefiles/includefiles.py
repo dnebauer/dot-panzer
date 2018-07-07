@@ -76,14 +76,14 @@ import panzertools  # NOQA
 import panzerutils  # NOQA
 
 
-def include_file_content(value):
+def include_file_content(path):
     """ Extract content of include file in json format
 
     Relies on panzerutils function 'mdfile_to_json' to extract
     content of include file.
 
     Params:
-    - value: original object value supplied by toJSONfilter()
+    - path: path to include file
 
     Returns:
     * Return values are ultimately for toJSONfilter, so its behaviour
@@ -91,23 +91,20 @@ def include_file_content(value):
     - Success: json-formatted content of include file
     - Failure: None (which means original value remains unchanged)
     """
-    filepath = extract_path('INCLUDEFILE', value)
-    if not filepath:  # deal with empty filepath
-        panzertools.log('ERROR', 'no file path in directive: "' +
-                        stringify(value) + '"')
+    if path is None:  # deal with empty filepath
+        panzertools.log('ERROR', 'no file path in INCLUDEFILE directive')
         return None  # keep original object value from toJSONfilter()
-    fullpath = filepath
     if include_directives.prefix:  # add prefix if set
-        fullpath = os.path.join(include_directives.prefix, filepath)
-    if not os.path.lexists(fullpath):  # check validity of path
-        panzertools.log('ERROR', 'invalid include file path: ' + fullpath)
+        path = os.path.join(include_directives.prefix, path)
+    if os.path.lexists(path):  # return file content in json format
+        panzertools.log('INFO', 'including file: ' + path)
+        return panzerutils.mdfile_to_json(path)
+    else:  # invalid path
+        panzertools.log('ERROR', 'invalid include file path: ' + path)
         return None  # keep original object value from toJSONfilter()
-    # valid path, so return file content in json format
-    panzertools.log('INFO', 'including file: ' + fullpath)
-    return panzerutils.mdfile_to_json(fullpath)  # json content
 
 
-def include_prefix(value):
+def include_prefix(path):
     """ Set or unset include prefix path
 
     This path is prefixed to all subsequent include file paths.
@@ -117,7 +114,7 @@ def include_prefix(value):
     If no path is provided the prefix is unset.
 
     Params:
-    - value: original object value supplied by toJSONfilter()
+    - path: include file prefix
 
     Returns:
     * Return values are ultimately for toJSONfilter, so its behaviour
@@ -125,50 +122,18 @@ def include_prefix(value):
     - Success: [] (which means original value is deleted)
     - Failure: None (which means original value remains unchanged)
     """
-    path = extract_path('INCLUDEPREFIX', value)
-    if not path:  # no path provided so unset prefix if set
+    if path is None:  # no path provided so unset prefix if set
         if include_directives.prefix:
             include_directives.prefix = str()
             panzertools.log('INFO', 'prefix unset')
         return []  # delete original value
-    if not os.path.lexists(path):  # invalid path
+    if os.path.lexists(path):  # valid path so set prefix
+        include_directives.prefix = path
+        panzertools.log('INFO', 'prefix set to: ' + path)
+        return []  # delete original value
+    else:  # invalid path
         panzertools.log('ERROR', 'prefix path is invalid: ' + path)
         return None  # keep original object value from toJSONfilter()
-    # valid path so set prefix
-    include_directives.prefix = path
-    panzertools.log('INFO', 'prefix set to:')
-    panzertools.log('INFO', '- "' + path + '"')
-    return []  # delete original value
-
-
-def extract_path(keyword, value):
-    """ Extracts path from supplied ast object value
-
-    Must cope with following cases:
-    'KEYWORD path'
-    'KEYWORD: path'
-    'KEYWORD : path'
-    'KEYWORD=path'
-    'KEYWORD = path'
-
-    All spaces may be multiple and consist of any whitespace characters.
-    The path itself may contain spaces which are preserved.
-
-    Params:
-    - keyword: keyword at head of stringified value
-    - value: original value supplied by toJSONfilter()
-
-    Returns:
-    - Valid path extracted: path as string
-    - Invalid path extracted: False
-    - No path extracted: None
-    """
-    # extract path from stringified value
-    begin = len(keyword)
-    string = stringify(value)
-    raw_path = string[begin:]
-    path = raw_path.strip(' :=\t\n\r')
-    return path
 
 
 # method signature is determined by pandocfilters, so can't
@@ -197,11 +162,14 @@ def include_directives(key, value, format, meta):
       . Failure: None (which means original value remains unchanged)
     """
     if (key == 'Para' and value[0]['t'] == 'Str'):
-        first_string = value[0]['c']
-        if first_string.startswith('INCLUDEFILE'):
-            return include_file_content(value)
-        if first_string.startswith('INCLUDEPREFIX'):
-            return include_prefix(value)
+        string = stringify(value)
+        if string.startswith(('INCLUDEFILE', 'INCLUDEPREFIX')):
+            directive, val = panzerutils.key_value_pair(string)
+            if directive == 'INCLUDEFILE':
+                return include_file_content(val)
+            elif directive == 'INCLUDEPREFIX':
+                return include_prefix(val)
+            return None  # not a directive; keep toJSONfilter() object value
 
 
 include_directives.prefix = str()
