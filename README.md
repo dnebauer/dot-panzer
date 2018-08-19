@@ -24,7 +24,7 @@ Standard
 
 PaginateSections
 
-* Add page break at the start of each H1 section
+* Add page break at the start of each section
 * Adds filter script: paginatesects
 
 IncludeFiles
@@ -54,7 +54,7 @@ Latex\[8|9|10|11|12|14|17|20\]pt
 
 metadata_files
 
-* Makes available an additional metadata field called `metadata-file`
+* Filter script that makes available a metadata field called `metadata-file`
     * This field can be used in the source markdown file or in the panzer style
       file as part of style definitions
 * This field can hold a single inline value or a list of multiple values
@@ -73,18 +73,20 @@ metadata_files
 
 createmobi
 
-* Uses the cli utility `ebook-convert` from the `calibre` application to create
-  an additional `mobi` output file when an `epub` file is output
+* Postflight script that uses the cli utility `ebook-convert` from the
+  `calibre` application to create an additional `mobi` output file when an
+  `epub` file is output
 
 paginatesects
 
-* Add `\newpage` command before each level 1 header
+* Filter script that adds a `\newpage` command before each level 1 header
 * Adjusts page counter appropriately
 
 includefiles
 
-* Adds directive `INCLUDEFILE` which can be used to insert another document in
-  the current document at the location of, and replacing, the directive
+* Filter script that adds directive `INCLUDEFILE`, which can be used to insert
+  another document in the current document at the location of, and replacing,
+  the directive
 * The `INCLUDEPREFIX` directive can be used to supply a directory path which
   will be prefixed to all subsequent `INCLUDEFILE` paths
 * Designed for markdown files; YMMV using this filter with other document
