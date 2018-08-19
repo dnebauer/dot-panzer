@@ -138,7 +138,7 @@ Standard:
       self-contained: true
       mathjax: true
     metadata:
-      css: "/home/david/.panzer/template/css/buttondown.css"
+      css: "/home/david/.config/panzer/template/css/buttondown.css"
   latex:
     commandline:
       pdf-engine: "`xelatex`"
@@ -344,7 +344,7 @@ Draft:
   html:
     template: article.html
     commandline:
-      include-in-header: "`/home/david/.panzer/template/css/\
+      include-in-header: "`/home/david/.config/panzer/template/css/\
                           momento-pandoc.css`"
 
 # Add the bibliography
@@ -418,7 +418,7 @@ Notes:
   html:
     template: article.html
     metadata:
-      css: "/home/david/.panzer/template/css/momento-pandoc.css"
+      css: "/home/david/.config/panzer/template/css/momento-pandoc.css"
 
 # Variation on the Notes style with sans serif heading titles
 SansHeadings:
