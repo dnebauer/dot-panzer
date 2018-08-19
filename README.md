@@ -21,7 +21,6 @@ Standard
   [pandoc-tablenos](https://github.com/tomduck/pandoc-tablenos)
 * Adds postflight script: createmobi
 
-
 PaginateSections
 
 * Add page break at the start of each section
@@ -35,7 +34,8 @@ IncludeFiles
 FlushSections
 
 * Flush all floats at the end of each section
-* Uses metadata file `m_latex_flush-sect.md` to add package `placeins` with option `section`
+* Uses metadata file `m_latex_flush-sect.md` to add package `placeins` with
+  option `section`
 
 FlushSubsections
 
