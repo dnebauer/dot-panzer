@@ -1,19 +1,91 @@
-My personal `.panzer` files.
+# Panzer configuration files #
 
-Install to `$HOME/.panzer/` to use them.
+These started as a clone of the [configuration
+files](https://github.com/msprev/dot-panzer) provided by the
+[author](https://github.com/msprev) of
+[panzer](https://github.com/msprev/panzer).
 
-Note this useful experience from
-[fredcallaway](https://github.com/fredcallaway) described here:
-https://github.com/msprev/dot-panzer/issues/6
+Install to `$HOME/.config/panzer/`.
 
-> I struggled for a long time trying to generate a pdf with panzer foo.md -o
-> foo.pdf before realizing that the command should be panzer foo.md -o foo.tex.
-> It might be worth including that information somewhere for other wandering
-> souls :)
+Custom styles have been added. These styles use custom filter and postflight
+scripts, as well as custom metadata files.
 
-There are 2 ways to generate a pdf in pandoc/panzer:
+## Custom styles ##
 
-1. Quick-and-dirty by passing .pdf as the output extension to pandoc/panzer
-2. Writing .tex and using a postflight script to compile to pdf
+Standard
 
-My .panzer files use (2).
+* Replacement base style
+* Adds filter scripts: metadata_files,
+  [pandoc-fignos](https://github.com/tomduck/pandoc-fignos),
+  [pandoc-eqnos](https://github.com/tomduck/pandoc-eqnos), and
+  [pandoc-tablenos](https://github.com/tomduck/pandoc-tablenos)
+* Adds postflight script: createmobi
+
+
+PaginateSections
+
+* Add page break at the start of each H1 section
+* Adds filter script: paginatesects
+
+IncludeFiles
+
+* Include content from other markdown files
+* Adds filter script: includefiles
+
+FlushSections
+
+* Flush all floats at the end of each section
+* Uses metadata file `m_latex_flush-sect.md` to add package `placeins` with option `section`
+
+FlushSubsections
+
+* Flush all floats at the end of each subsection
+* Uses metadata file `m_latex_flush-subsect.md` to add package `placeins` with
+  option `section`, and redefines internal commands to flush subsects instead
+  of sects
+
+Latex\[8|9|10|11|12|14|17|20\]pt
+
+* Change font size to 8, 9, 10, 11, 12, 14, 17, or 20 pt
+* Uses metadata files `m_latex_font-size-[8|9|10|11|12|14|17|20]pt` to change
+  document class to `extarticle` and apply a font size
+
+## Custom scripts ##
+
+metadata_files
+
+* Makes available an additional metadata field called `metadata-file`
+    * This field can be used in the source markdown file or in the panzer style
+      file as part of style definitions
+* This field can hold a single inline value or a list of multiple values
+* Each value is a path to a markdown file
+    * Can be a full path or path relative to the current working directory
+    * If file is not a valid path, look in current directory, then
+      `$HOME/.config/panzer/custom`, and finally in `$HOME/.panzer/custom`
+* The yaml metadata header in each markdown files is processed
+    * These fields are additive in the sense used by
+      [panzer](https://github.com/msprev/panzer)
+    * If the same setting is specified in more than one metadata file, the
+      last one processed will 'win', except for `header-includes` fields which
+      are cumulative, except that a `header-includes` field in the source
+      metadata file will completely replace all such fields in additional
+      metadata files
+
+createmobi
+
+* Uses the cli utility `ebook-convert` from the `calibre` application to create
+  an additional `mobi` output file when an `epub` file is output
+
+paginatesects
+
+* Add `\newpage` command before each level 1 header
+* Adjusts page counter appropriately
+
+includefiles
+
+* Adds directive `INCLUDEFILE` which can be used to insert another document in
+  the current document at the location of, and replacing, the directive
+* The `INCLUDEPREFIX` directive can be used to supply a directory path which
+  will be prefixed to all subsequent `INCLUDEFILE` paths
+* Designed for markdown files; YMMV using this filter with other document
+  types

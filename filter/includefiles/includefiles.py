@@ -21,6 +21,17 @@ preceded and followed by at least one blank line.
 
 Directive keywords are all uppercase.
 
+The value in each case is a directory or file path. These paths can be
+formatted as links:
+
+    KEYWORD: [value]()
+
+For reasons not currently understood, these directives can cause syntax
+highlighting to fail. In many cases, though not all, formatting paths as links
+preserves syntax highlighting. Since formatting as links results in them being
+colored as a result of syntax highlighting, this may improve the appearance and
+readability of the document.
+
 The directives are:
 
 INCLUDEPREFIX path
@@ -99,9 +110,9 @@ def include_file_content(path):
     if os.path.lexists(path):  # return file content in json format
         panzertools.log('INFO', 'including file: ' + path)
         return panzerutils.mdfile_to_json(path)
-    else:  # invalid path
-        panzertools.log('ERROR', 'invalid include file path: ' + path)
-        return None  # keep original object value from toJSONfilter()
+    # if here then invalid path
+    panzertools.log('ERROR', 'invalid include file path: ' + path)
+    return None  # keep original object value from toJSONfilter()
 
 
 def include_prefix(path):
@@ -131,9 +142,9 @@ def include_prefix(path):
         include_directives.prefix = path
         panzertools.log('INFO', 'prefix set to: ' + path)
         return []  # delete original value
-    else:  # invalid path
-        panzertools.log('ERROR', 'prefix path is invalid: ' + path)
-        return None  # keep original object value from toJSONfilter()
+    # if here then invalid path
+    panzertools.log('ERROR', 'prefix path is invalid: ' + path)
+    return None  # keep original object value from toJSONfilter()
 
 
 # method signature is determined by pandocfilters, so can't
