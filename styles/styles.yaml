@@ -43,7 +43,7 @@ Base:
       controls: "false"
       header-includes: |
         <style type="text/css">
-          img{border: none !important;} 
+          img{border: none !important;}
         </style>
     template: revealjs.html
     commandline:
@@ -425,3 +425,76 @@ SansHeadings:
   latex:
     metadata:
       sans-style: true
+
+# This document is a presentation
+Presentation:
+  all:
+    metadata:
+      numbersections: false
+  html:
+    lua-filter:
+      - run: remove-presentation-markup.lua
+      - run: remove-tt.lua
+  latex:
+    metadata:
+      include-before:
+        - "\\small"
+    lua-filter:
+      - run: remove-presentation-markup.lua
+      - run: notes-to-callout.lua
+
+##################################################################
+#  Produces documents that look like Mumford method ones         #
+#  https://www.nottingham.ac.uk/Arts/Documents/MumfordMethod.pdf #
+##################################################################
+
+Mumford:
+  parent:
+    - Base
+  latex:
+    template: mumford.latex
+    metadata:
+      fontsize: 11pt
+      linkcolor: BlueViolet
+      citecolor: BlueViolet
+      urlcolor: BlueViolet
+
+####################################
+#  University of Edinburgh letter  #
+####################################
+
+Letter:
+  parent:
+    - Base
+  all:
+    metadata:
+      opening: false
+      closing: "Yours sincerely,"
+      letterhead:
+        image: "/home/david/.config/panzer/template/img/eulogo.pdf"
+        name: "Mr David Nebauer"
+        position: "Senior Complaints and Consumer Liaison Officer"
+        affiliation: "Ministerial and Complaints Unit"
+        address: |
+          | Royal Darwin Hospital
+          | 105 Rocklands Drive
+          | Tiwi NT 0810
+        phone: "+61 (0)8 8922 8631"
+        email: "david.nebauer@nt.gov.au"
+        website: "www.health.nt.gov.au"
+      cc: false
+      ps: false
+      incl: false
+      signed: true      # sign using image below
+      signature: "/home/david/.config/panzer/resources/signature.png"
+  latex:
+    template: UoE-letter.latex
+    metadata:
+      fontsize: 11pt
+      documentclass: infletr
+      classoption:
+        - LFCS
+      fontfamily: txfonts
+      graphics: true
+    filter:
+      - run: heading2bold.py
