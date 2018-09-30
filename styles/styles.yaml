@@ -344,8 +344,20 @@ Draft:
   html:
     template: article.html
     commandline:
-      include-in-header: "`/home/david/.config/panzer/template/css/\
-                          momento-pandoc.css`"
+      number-sections: true
+      include-in-header: "`/home/david/.config/panzer/template/\
+                          css/momento-pandoc.css`"
+      csl: "`/home/david/.config/panzer/template/\
+            csl/oxford-university-press-humsoc.csl`"
+  docx:
+    lua-filter:
+      - run: linebreakbetweenparas.lua
+    commandline:
+      number-sections: true
+      reference-doc: "`/home/david/.config/panzer/template/\
+                      reference-doc/article.docx`"
+      csl: "`/home/david/.config/panzer/template/\
+            csl/oxford-university-press-humsoc.csl`"
 
 # Add the bibliography
 Article:
