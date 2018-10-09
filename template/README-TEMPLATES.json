@@ -85,8 +85,8 @@
          "author": "Niko Heikkilä",
         "summary": ["CSS stylesheet for HTML based on",
                   "Edward Tufte's print style"],
-          "files": ["css/nikoheikkila-tufte.css",
-                  "nikoheikkila-tufte.html"]
+          "files": ["css/tufte-nikoheikkila.css",
+                  "tufte-nikoheikkila.html"]
     },
     "tufte-otsaloma": {
            "name": "tufte (otsaloma)",
