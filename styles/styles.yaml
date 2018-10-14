@@ -165,6 +165,105 @@ Standard:
     commandline:
       mathjax: true
 
+###################################################
+# Style after Edward Tufte                        #
+#                                                 #
+# docx:                                           #
+#   reference-docx: "/path/to/docx/template/file" #
+# odt:                                            #
+#   reference-odt: "/path/to/odt/template/file"   #
+###################################################
+
+Tufte:
+  all:
+    metadata:
+      numbersections: false
+      lang: "en-AU"
+      papersize: A4
+      metadata-file:
+        - m_all_numbered-refs.md
+    from: markdown+footnotes+inline_notes+smart
+    commandline:
+      standalone: true
+    filter:
+      - run: metadata_files.py
+      - run: pandoc-fignos
+      - run: pandoc-eqnos
+      - run: pandoc-tablenos
+      - run: smallcaps.py
+  beamer:
+    preflight:
+      - run: tmp_out.py
+    postflight:
+      - run: latexmk.py
+      - run: open_pdf.py
+    cleanup:
+      - run: tmp_back.py
+      - run: rmlatex.py
+    metadata:
+      microtypeoptions:
+        - babel
+  context:
+    preflight:
+      - run: tmp_out.py
+    postflight:
+      - run: latexmk.py
+      - run: open_pdf.py
+    cleanup:
+      - run: tmp_back.py
+      - run: rmlatex.py
+    metadata:
+      microtypeoptions:
+        - babel
+      header-includes:
+        - \usepackage{xcolor}
+        - \usepackage{fontspec}
+        - \setmainfont{Junicode}
+        - \newfontfamily\myregularfont{Junicode}
+        - \newfontfamily\mychinesefont{IPAexMincho}
+        - \usepackage[CJK]{ucharclasses}
+        - \setTransitionsForCJK{\mychinesefont}{\myregularfont}
+    variable:
+      - linkcolor: gray
+      - papersize: A4
+  epub:
+    commandline:
+      self-contained: true
+      mathjax: true
+    filter:
+      - run: inject_epub_cover.py
+    postflight:
+      - run: createmobi.py
+  html:
+    commandline:
+      self-contained: true
+      mathjax: true
+    metadata:
+      css: "/home/david/.config/panzer/template/css/tufte-otsaloma.css"
+  latex:
+    commandline:
+      pdf-engine: "`xelatex`"
+    preflight:
+      - run: tmp_out.py
+    # postflight:
+    # - run: latexmk.py
+    # - run: open_pdf.py
+    cleanup:
+      - run: tmp_back.py
+      # - run: rmlatex.py :: not needed for single-step pdf;
+      #                      deletes output in latex/context run!
+    metadata:
+      microtypeoptions:
+        - babel
+      metadata-file:
+        - m_latex_tufte-jez.md
+        - m_latex_paper-a4.md
+  revealjs:
+    filter:
+      - run: name2auth.py
+    commandline:
+      mathjax: true
+
 #####################################
 #  Styles that add extra behaviour  #
 #####################################

@@ -22,8 +22,8 @@
                   "and personal taste."],
           "files": ["css/github-otsaloma.css"]
     },
-    "jez": {
-           "name": "jez",
+    "jez-html": {
+           "name": "jez-html",
          "source": "https://github.com/jez/tufte-pandoc-css",
         "version": "commit 76e7b68 on 27 August 2018",
          "author": "Jake Zimmerman",
@@ -32,6 +32,16 @@
                   "tufte-jez.html5"],
            "note": ["css file is amalgam of four style files",
                   "from project - see file comments for details"]
+    },
+    "jez-tex": {
+           "name": "jez-tex",
+         "source": "https://github.com/jez/pandoc-starter/blob/master/tufte-handout/src/template.tex",
+        "version": "commit 41bc859 on 21 November 2016",
+         "author": "Jake Zimmerman",
+        "summary": ["Used for writing up articles formatted in",
+                  "a style formatted by Edward Tufte, it uses the",
+                  "'tufte-handout' document class"],
+          "files": ["tufte-jez.tex"]
     },
     "killercup": {
            "name": "killercup",
