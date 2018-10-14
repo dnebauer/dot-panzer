@@ -483,7 +483,8 @@ class PandocAST(object):
                     headers += new_metadata['header-includes']['c']
                 metadata.update(new_metadata)
         if metadata:
-            metadata['header-includes']['c'] = headers
+            if headers:
+                metadata['header-includes']['c'] = headers
             log('DEBUG', 'extracted metadata:')
             log_pretty_json(metadata)
         else:
