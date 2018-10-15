@@ -22,27 +22,6 @@
                   "and personal taste."],
           "files": ["css/github-otsaloma.css"]
     },
-    "jez-html": {
-           "name": "jez-html",
-         "source": "https://github.com/jez/tufte-pandoc-css",
-        "version": "commit 76e7b68 on 27 August 2018",
-         "author": "Jake Zimmerman",
-        "summary": ["Using Pandoc Markdown with Tufte CSS"],
-          "files": ["css/jez-pandoc.css",
-                  "tufte-jez.html5"],
-           "note": ["css file is amalgam of four style files",
-                  "from project - see file comments for details"]
-    },
-    "jez-tex": {
-           "name": "jez-tex",
-         "source": "https://github.com/jez/pandoc-starter/blob/master/tufte-handout/src/template.tex",
-        "version": "commit 41bc859 on 21 November 2016",
-         "author": "Jake Zimmerman",
-        "summary": ["Used for writing up articles formatted in",
-                  "a style formatted by Edward Tufte, it uses the",
-                  "'tufte-handout' document class"],
-          "files": ["tufte-jez.latex"]
-    },
     "killercup": {
            "name": "killercup",
          "source": "https://gist.github.com/killercup/5917178",
@@ -88,7 +67,28 @@
                   "and in PDF"],
           "files": ["css/posaune-theme.css"]
     },
-    "tufte-nikoheikkila": {
+    "tufte-jez-html": {
+           "name": "tufte-jez-html",
+         "source": "https://github.com/jez/tufte-pandoc-css",
+        "version": "commit 76e7b68 on 27 August 2018",
+         "author": "Jake Zimmerman",
+        "summary": ["Using Pandoc Markdown with Tufte CSS"],
+          "files": ["css/jez-pandoc.css",
+                  "tufte-jez.html5"],
+           "note": ["css file is amalgam of four style files",
+                  "from project - see file comments for details"]
+    },
+    "tufte-jez-tex": {
+           "name": "tufte-jez-tex",
+         "source": "https://github.com/jez/pandoc-starter/blob/master/tufte-handout/src/template.tex",
+        "version": "commit 41bc859 on 21 November 2016",
+         "author": "Jake Zimmerman",
+        "summary": ["Used for writing up articles formatted in",
+                  "a style formatted by Edward Tufte, it uses the",
+                  "'tufte-handout' document class"],
+          "files": ["tufte-jez.latex"]
+    },
+    "tufte-nikoheikkila-html": {
            "name": "tufte (nikoheikkila)",
          "source": "https://github.com/nikoheikkila/dotpandoc",
         "version": "commit 4d8f15d on 21 May 2018",
@@ -98,7 +98,7 @@
           "files": ["css/tufte-nikoheikkila.css",
                   "tufte-nikoheikkila.html"]
     },
-    "tufte-otsaloma": {
+    "tufte-otsaloma-html": {
            "name": "tufte (otsaloma)",
          "source": "https://github.com/otsaloma/markdown-css",
         "version": "commit 0a18b84 on 30 April 2018",
@@ -131,5 +131,15 @@
                   "css/tufte-otsaloma-et-book/et-book-semi-bold-old-style-figures/et-book-semi-bold-old-style-figures.svg",
                   "css/tufte-otsaloma-et-book/et-book-semi-bold-old-style-figures/et-book-semi-bold-old-style-figures.ttf",
                   "css/tufte-otsaloma-et-book/et-book-semi-bold-old-style-figures/et-book-semi-bold-old-style-figures.woff"]
+    },
+    "tufte-wcaleb-tex": {
+           "name": "tufte-jez-tex",
+         "source": "https://github.com/wcaleb/pandoc-templates/blob/master/handout.tex",
+        "version": "commit 0cc5941 on 2 September 2016",
+         "author": "W. Caleb McDaniel",
+        "summary": ["Yet another template based on the 'tufte-handout' latex",
+                  "style; see comment in file regarding additional token",
+                  "definitions"],
+          "files": ["tufte-wcaleb.latex"]
     }
 }
