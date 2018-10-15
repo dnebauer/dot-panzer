@@ -10,27 +10,8 @@ colorlinks: true
 linkcolor: RoyalBlue
 urlcolor: RoyalBlue
 ---
-
-# Source #
-
 From [sample markdown file][file] at github repo [jez/pandoc-starter][repo].
 
-# Currently fails #
+DTN added to template file `tufte-jez.tex` fix from [https://github.com/Tufte-LaTeX/tufte-latex/issues/107#issuecomment-183679016]()
 
-Fails with this error message if documentclass=`tufte-handout`:
-
-```bash
-ERROR:     !Error producing PDF.
-ERROR:     !! Argument of \MakeTextLowercase has an extra }.
-ERROR:     !<inserted text>
-ERROR:     !                \par
-ERROR:     !l.265 \begin{Shaded}
-```
-
-[comment]: # (URLs)
-
-   [file]:
-   https://github.com/jez/pandoc-starter/blob/master/tufte-handout/src/sample.md
-
-   [repo]:
-   https://github.com/jez/pandoc-starter
+* At time of writing, 14 October 2018, fix is to lines 29--39 of template file

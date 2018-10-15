@@ -13,7 +13,7 @@ $if(linestretch)$
 $endif$
 \usepackage{amssymb,amsmath}
 \usepackage{ifxetex,ifluatex}
-\usepackage{fixltx2e} % provides \textsubscript
+%\usepackage{fixltx2e} % provides \textsubscript
 \ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
   \usepackage[$if(fontenc)$$fontenc$$else$T1$endif$]{fontenc}
   \usepackage[utf8]{inputenc}
@@ -26,6 +26,18 @@ $endif$
   \usepackage{fontspec}
 %  \fi
   \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
+  % following (re)newcommands avoids bug from
+  % http://tex.stackexchange.com/a/200725/1913 
+  % if lua- or xelatex http://tex.stackexchange.com/a/140164/1913
+  % change textls to txtltrspc to avoid collision with microtype.sty
+  \newcommand{\txtltrspc}[2][5]{%
+    \begingroup\addfontfeatures{LetterSpace=#1}#2\endgroup
+  }
+  \renewcommand{\allcapsspacing}[1]{\txtltrspc[15]{#1}}
+  \renewcommand{\smallcapsspacing}[1]{\txtltrspc[10]{#1}}
+  \renewcommand{\allcaps}[1]{\txtltrspc[15]{\MakeTextUppercase{#1}}}
+  \renewcommand{\smallcaps}[1]{\smallcapsspacing{\scshape\MakeTextLowercase{#1}}}
+  \renewcommand{\textsc}[1]{\smallcapsspacing{\textsmallcaps{#1}}}
 $for(fontfamilies)$
   \newfontfamily{$fontfamilies.name$}[$fontfamilies.options$]{$fontfamilies.font$}
 $endfor$

@@ -241,6 +241,7 @@ Tufte:
     metadata:
       css: "/home/david/.config/panzer/template/css/tufte-otsaloma.css"
   latex:
+    template: tufte-jez.latex
     commandline:
       pdf-engine: "`xelatex`"
     preflight:

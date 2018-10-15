@@ -41,7 +41,7 @@
         "summary": ["Used for writing up articles formatted in",
                   "a style formatted by Edward Tufte, it uses the",
                   "'tufte-handout' document class"],
-          "files": ["tufte-jez.tex"]
+          "files": ["tufte-jez.latex"]
     },
     "killercup": {
            "name": "killercup",
