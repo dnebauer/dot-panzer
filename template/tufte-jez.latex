@@ -21,10 +21,11 @@ $if(euro)$
   \usepackage{eurosym}
 $endif$
 \else % if luatex or xelatex
-%  \ifxetex
-%  \else
-  \usepackage{fontspec}
-%  \fi
+  %\ifxetex % if xelatex
+    %\usepackage{mathspec} % need for later \setmathfont
+  %\else % if lualatex
+    %\usepackage{fontspec}
+  %\fi
   \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
   % following (re)newcommands avoids bug from
   % http://tex.stackexchange.com/a/200725/1913 
