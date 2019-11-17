@@ -1,8 +1,10 @@
 ---
 documentclass: tufte-handout
 fontsize: 12pt
-mainfont: TeX Gyre Pagella
-monofont: Menlo for Powerline
+mainfont: Linux Libertine O
+monofont: Inconsolata
+sansfont: Linux Biolinum O
+#mathfont: TeX Gyre Pagella Math
 newtxmathoptions:
 - cmintegrals
 - cmbraces
