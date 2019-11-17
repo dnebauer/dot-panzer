@@ -1,5 +1,19 @@
 # Panzer configuration files #
 
+-----
+
+## Notice from creator of \[dot-\]panzer (12 February 2019)
+
+Development has ceased on panzer. Over the years, pandoc has gained
+powerful new functionality (e.g. the `--metadata-file` option and Lua
+filters) that means that 90% of what can be done with panzer can be done
+with pandoc and some simple wrapper scripts. I no longer use panzer in
+my own workflow for this reason.
+
+If you would like to take over development of panzer, let me know.
+
+-----
+
 These started as a clone of the [configuration
 files](https://github.com/msprev/dot-panzer) provided by the
 [author](https://github.com/msprev) of
