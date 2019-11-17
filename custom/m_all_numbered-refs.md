@@ -1,7 +1,8 @@
 ---
-eqnos-cleveref: on
+eqnos-cleveref: true
 eqnos-plus-name: equation
-fignos-cleveref: on
+fignos-cleveref: true
 fignos-plus-name: figure
-tablenos-cleveref: on
+secnos-cleveref: true
+tablenos-cleveref: true
 ---
